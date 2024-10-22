@@ -18,4 +18,6 @@
     <string name="tv_appline">The smart way to find recipes</string>
     <string name="title_activity_dashboard">Dashboard</string>
 
+    //login string
+    <string name="default_web_client_id">763705698033-cjftd7f2idp1ccm1uhsjbdosm7448p1d.apps.googleusercontent.com</string>
 </resources>

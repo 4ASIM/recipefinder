@@ -25,15 +25,16 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Set up RecyclerView in the fragment
+        // Set up RecyclerView for the horizontal items
         val recyclerView: RecyclerView = binding.recyclerView
-        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.layoutManager = layoutManager
+        val horizontalLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = horizontalLayoutManager
 
-        val items = listOf(
+        // Data for horizontal RecyclerView
+        val horizontalItems = listOf(
             Pair(R.drawable.maindish, "Main Dish"),
             Pair(R.drawable.sidedish, "Side Dish"),
-            Pair(R.drawable.appetizers, "Appetizerss"),
+            Pair(R.drawable.appetizers, "Appetizers"),
             Pair(R.drawable.breakfast, "BreakFast"),
             Pair(R.drawable.dessert, "Dessert"),
             Pair(R.drawable.salad, "Salad"),
@@ -41,9 +42,27 @@ class HomeFragment : Fragment() {
             Pair(R.drawable.soup, "Soup")
         )
 
-// Set adapter for RecyclerView
-        val adapter = CardAdapter(items)
-        recyclerView.adapter = adapter
+        // Set adapter for the horizontal RecyclerView
+        val horizontalAdapter = CardAdapter(horizontalItems)
+        recyclerView.adapter = horizontalAdapter
+
+        // Set up RecyclerView for the vertical ingredients
+        val rvIngredients: RecyclerView = binding.rvIngredent
+        val verticalLayoutManager = LinearLayoutManager(context)
+        rvIngredients.layoutManager = verticalLayoutManager
+
+        // Data for vertical RecyclerView (ingredients)
+        val verticalItems = listOf(
+            Pair(R.drawable.sidedish, "Ingredient 1"),
+            Pair(R.drawable.sidedish, "Ingredient 2"),
+            Pair(R.drawable.sidedish, "Ingredient 3"),
+            Pair(R.drawable.sidedish, "Ingredient 4"),
+            Pair(R.drawable.sidedish, "Ingredient 5")
+        )
+
+        // Set adapter for the vertical RecyclerView
+        val verticalAdapter = IngredientAdapter(verticalItems)
+        rvIngredients.adapter = verticalAdapter
 
         return root
     }
