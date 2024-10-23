@@ -8,9 +8,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+
 
 
     //splashscreen
@@ -22,4 +20,7 @@
     <string name="default_web_client_id">763705698033-cjftd7f2idp1ccm1uhsjbdosm7448p1d.apps.googleusercontent.com</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_home">Home</string>
+    <string name="title_Favourite">Favourite</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:queryHint="Search..."
         app:searchHintIcon="@null"
-         />
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

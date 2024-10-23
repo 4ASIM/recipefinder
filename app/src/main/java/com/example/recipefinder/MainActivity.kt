@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             val intent = if (currentUser != null) {
-                Intent(this, MainActivity2::class.java)
+                Intent(this, Dashboard::class.java)
             } else {
                 Intent(this, loginscreen::class.java)
             }
