@@ -19,7 +19,7 @@ class FavouriteFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: FavouriteViewModel
     private lateinit var recipeAdapter: RecipeAdapter
-    private val searchHandler = Handler(Looper.getMainLooper())
+    private val searchHandler = Handler(Looper.getMainLooper()) // For debounce mechanism
     private var searchRunnable: Runnable? = null
 
     override fun onCreateView(
@@ -35,10 +35,11 @@ class FavouriteFragment : Fragment() {
         binding.rvFavorite.layoutManager = LinearLayoutManager(context)
         binding.rvFavorite.adapter = recipeAdapter
 
+        viewModel.searchRecipes("", "")
+
         viewModel.recipes.observe(viewLifecycleOwner, Observer { recipes ->
             recipeAdapter.updateRecipes(recipes)
 
-            // Show or hide "No records found" message based on the recipe list
             if (recipes.isEmpty()) {
                 binding.noRecordsFound.visibility = View.VISIBLE
             } else {

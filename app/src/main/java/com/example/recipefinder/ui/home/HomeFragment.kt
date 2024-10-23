@@ -1,27 +1,37 @@
 package com.example.recipefinder.ui.home
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipefinder.R
 import com.example.recipefinder.databinding.FragmentHomeBinding
+import com.example.recipefinder.ui.dashboard.FavouriteViewModel
+import com.example.recipefinder.ui.dashboard.RecipeAdapter
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private lateinit var viewModel: HomeViewModel
+    private lateinit var IngredientAdapter: IngredientAdapter
+    private val searchHandler = Handler(Looper.getMainLooper())
+    private var searchRunnable: Runnable? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -46,23 +56,37 @@ class HomeFragment : Fragment() {
         val horizontalAdapter = CardAdapter(horizontalItems)
         recyclerView.adapter = horizontalAdapter
 
-        // Set up RecyclerView for the vertical ingredients
-        val rvIngredients: RecyclerView = binding.rvIngredent
-        val verticalLayoutManager = LinearLayoutManager(context)
-        rvIngredients.layoutManager = verticalLayoutManager
+        IngredientAdapter = IngredientAdapter(listOf())
+        binding.rvIngredent.layoutManager = LinearLayoutManager(context)
+        binding.rvIngredent.adapter = IngredientAdapter
+        viewModel.searchRecipes("", "")
 
-        // Data for vertical RecyclerView (ingredients)
-        val verticalItems = listOf(
-            Pair(R.drawable.sidedish, "Ingredient 1"),
-            Pair(R.drawable.sidedish, "Ingredient 2"),
-            Pair(R.drawable.sidedish, "Ingredient 3"),
-            Pair(R.drawable.sidedish, "Ingredient 4"),
-            Pair(R.drawable.sidedish, "Ingredient 5")
-        )
+        viewModel.recipes.observe(viewLifecycleOwner, Observer { recipes ->
+            IngredientAdapter.updateRecipes(recipes)
 
-        // Set adapter for the vertical RecyclerView
-        val verticalAdapter = IngredientAdapter(verticalItems)
-        rvIngredients.adapter = verticalAdapter
+            if (recipes.isEmpty()) {
+                binding.noRecordsFound.visibility = View.VISIBLE
+            } else {
+                binding.noRecordsFound.visibility = View.GONE
+            }
+        })
+
+        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                searchRunnable?.let { searchHandler.removeCallbacks(it) }
+                searchRunnable = Runnable {
+                    newText?.let {
+                        viewModel.searchRecipes(it, "")
+                    }
+                }
+                searchHandler.postDelayed(searchRunnable!!, 300)
+                return true
+            }
+        })
 
         return root
     }
@@ -70,5 +94,6 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        searchRunnable?.let { searchHandler.removeCallbacks(it) }
     }
 }

@@ -23,6 +23,37 @@
         app:queryHint="Search..."
         app:searchHintIcon="@null"
         />
+    <TextView
+        android:id="@+id/no_records_found"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="No records found"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/search"
+        app:layout_constraintStart_toStartOf="@id/search"
+        app:layout_constraintTop_toBottomOf="@id/search" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:text="Varities"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:fontFamily="@font/productsansmedium"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/search"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -32,6 +63,23 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="30dp"
         app:layout_constraintTop_toBottomOf="@+id/search" />
+
+    <TextView
+        android:id="@+id/tvTitle2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="12dp"
+        android:ellipsize="end"
+        android:text="Dishes"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView"
+        android:fontFamily="@font/productsansmedium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_ingredent"

@@ -1,29 +1,36 @@
 package com.example.recipefinder.ui.home
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.recipefinder.R
+import com.bumptech.glide.Glide
 import com.example.recipefinder.databinding.HomescreenItemlayoutBinding
+import com.example.recipefinder.model.Recipe
 
-class IngredientAdapter(private val items: List<Pair<Int, String>>) : RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
+class IngredientAdapter(private var recipes: List<Recipe>) : RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {
 
-    inner class ViewHolder(private val binding: HomescreenItemlayoutBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Pair<Int, String>) {
-            binding.ivRecipe.setImageResource(item.first)
-            binding.tvTitle.text = item.second
+    class IngredientViewHolder(val binding: HomescreenItemlayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
         val binding = HomescreenItemlayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        return IngredientViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+    override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
+        val recipe = recipes[position]
+        holder.binding.tvTitle.text = recipe.title
+
+        // Load the recipe image
+        Glide.with(holder.itemView.context)
+            .load(recipe.image)
+            .into(holder.binding.ivRecipe)
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = recipes.size
+
+    fun updateRecipes(newRecipes: List<Recipe>) {
+        this.recipes = newRecipes
+        notifyDataSetChanged()
+    }
 }
