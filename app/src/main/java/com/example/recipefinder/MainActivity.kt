@@ -5,19 +5,25 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.example.recipefinder.databinding.ActivityMainBinding
-
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
-    private  var binding: ActivityMainBinding?= null
+    private var binding: ActivityMainBinding? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-        //added
-        Handler().postDelayed({
+        val auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
 
-            val intent = Intent(this,loginscreen::class.java)
+        Handler().postDelayed({
+            val intent = if (currentUser != null) {
+                Intent(this, MainActivity2::class.java)
+            } else {
+                Intent(this, loginscreen::class.java)
+            }
             startActivity(intent)
             finish()
         }, 3000)

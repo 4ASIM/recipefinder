@@ -1,4 +1,4 @@
-package com.example.recipefinder.ui.OverviewFragment
+package com.example.recipefinder.ui.TablayoutIngredient
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,24 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.recipefinder.R
 
-class OverviewFragment : Fragment() {
+class IngredientTabFragment : Fragment() {
 
     companion object {
-        fun newInstance() = OverviewFragment()
+        fun newInstance() = IngredientTabFragment()
     }
 
-    private lateinit var viewModel: OverviewViewModel
+    private lateinit var viewModel: IngredientTabViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_overview, container, false)
+        return inflater.inflate(R.layout.fragment_ingredient_tab, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(OverviewViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(IngredientTabViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

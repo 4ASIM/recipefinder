@@ -20,4 +20,6 @@
 
     //login string
     <string name="default_web_client_id">763705698033-cjftd7f2idp1ccm1uhsjbdosm7448p1d.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
