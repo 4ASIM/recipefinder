@@ -21,7 +21,6 @@ class RecipeAdapter(private var recipes: List<Recipe>) : RecyclerView.Adapter<Re
         val recipe = recipes[position]
         holder.binding.tvTitle.text = recipe.title
 
-        // Load the recipe image
         Glide.with(holder.itemView.context)
             .load(recipe.image)
             .into(holder.binding.ivRecipe)

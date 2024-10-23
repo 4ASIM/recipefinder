@@ -18,8 +18,15 @@
         tools:layout="@layout/favourite_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.recipefinder.ui.notifications.NotificationsFragment"
+        android:id="@+id/navigation_setting"
+        android:name="com.example.recipefinder.ui.Setting.SettingFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.recipefinder.ui.home.detailsofincredient.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" />
+
+
 </navigation>
