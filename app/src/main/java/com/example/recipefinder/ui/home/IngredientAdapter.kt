@@ -3,8 +3,10 @@ package com.example.recipefinder.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.recipefinder.R
 import com.example.recipefinder.databinding.HomescreenItemlayoutBinding
 import com.example.recipefinder.model.Recipe
 
@@ -21,10 +23,15 @@ class IngredientAdapter(private var recipes: List<Recipe>) : RecyclerView.Adapte
         val recipe = recipes[position]
         holder.binding.tvTitle.text = recipe.title
 
-        // Load the recipe image
+
         Glide.with(holder.itemView.context)
             .load(recipe.image)
             .into(holder.binding.ivRecipe)
+
+        holder.itemView.setOnClickListener {
+            holder.itemView.findNavController().navigate(R.id.detailFragment)
+        }
+
     }
 
     override fun getItemCount(): Int = recipes.size

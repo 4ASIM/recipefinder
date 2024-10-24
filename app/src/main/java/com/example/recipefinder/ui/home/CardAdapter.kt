@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipefinder.R
 
@@ -16,6 +17,7 @@ class CardAdapter(private val items: List<Pair<Int, String>>) : RecyclerView.Ada
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         holder.bind(items[position])
+
     }
 
     override fun getItemCount(): Int {

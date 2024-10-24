@@ -24,6 +24,7 @@ class RecipeAdapter(private var recipes: List<Recipe>) : RecyclerView.Adapter<Re
         Glide.with(holder.itemView.context)
             .load(recipe.image)
             .into(holder.binding.ivRecipe)
+
     }
 
     override fun getItemCount(): Int = recipes.size

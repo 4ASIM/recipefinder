@@ -15,7 +15,7 @@ class HomeViewModel : ViewModel() {
     val recipes: LiveData<List<Recipe>> get() = _recipes
 
     fun searchRecipes(query: String, ingredients: String) {
-        RetrofitClient.instance.searchRecipes("", query, ingredients, 5)
+        RetrofitClient.instance.searchRecipes("551d1c5bc8394bcd9543cdb5feb1bde2", query, ingredients, 5)
             .enqueue(object : Callback<RecipeResponse> {
                 override fun onResponse(
                     call: Call<RecipeResponse>,
