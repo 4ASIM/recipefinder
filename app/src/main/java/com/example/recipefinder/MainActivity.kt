@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import com.example.recipefinder.database.Dishactivity
 import com.example.recipefinder.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             val intent = if (currentUser != null) {
-                Intent(this, Dashboard::class.java)
+                Intent(this, Dishactivity::class.java)
             } else {
                 Intent(this, loginscreen::class.java)
             }
