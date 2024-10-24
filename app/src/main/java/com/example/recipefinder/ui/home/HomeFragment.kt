@@ -35,12 +35,10 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Set up RecyclerView for the horizontal items
         val recyclerView: RecyclerView = binding.recyclerView
         val horizontalLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = horizontalLayoutManager
 
-        // Data for horizontal RecyclerView
         val horizontalItems = listOf(
             Pair(R.drawable.maindish, "Main Dish"),
             Pair(R.drawable.sidedish, "Side Dish"),
@@ -52,7 +50,6 @@ class HomeFragment : Fragment() {
             Pair(R.drawable.soup, "Soup")
         )
 
-        // Set adapter for the horizontal RecyclerView
         val horizontalAdapter = CardAdapter(horizontalItems)
         recyclerView.adapter = horizontalAdapter
 
