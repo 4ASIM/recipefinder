@@ -10,11 +10,11 @@ class DishRepository(private val dishDao: DishDao) {
     suspend fun fetchAndStoreDishes(cuisines: List<String>, apiKey: String) {
         for (cuisine in cuisines) {
             try {
-                // Fetch dishes from the API
+
                 val response = RetrofitInstance.api.getDishes(cuisine, 5, apiKey).await()
 
                 if (response.results.isNotEmpty()) {
-                    // Convert API response to DishEntity and store in Room
+
                     val dishes = response.results.map {
                         DishEntity(it.id, it.title, it.image, cuisine)
                     }
