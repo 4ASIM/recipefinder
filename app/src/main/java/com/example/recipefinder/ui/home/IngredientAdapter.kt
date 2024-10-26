@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipefinder.R
 import com.example.recipefinder.databinding.HomescreenItemlayoutBinding
-import com.example.recipefinder.model.Recipe
+//
 
 class IngredientAdapter(private var recipes: List<Recipe>) : RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {
 

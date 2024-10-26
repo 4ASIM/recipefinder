@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.recipefinder.database.Dishactivity
+//import com.example.recipefinder.database.Dishactivity
 import com.example.recipefinder.databinding.ActivityLoginscreenBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -73,7 +73,7 @@ class loginscreen : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     Toast.makeText(this, "Signed in as ${user?.displayName}", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, Dishactivity::class.java))
+                    startActivity(Intent(this, Dashboard::class.java))
                     finish()
                 } else {
                     Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()

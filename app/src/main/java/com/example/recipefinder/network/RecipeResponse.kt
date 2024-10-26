@@ -1,5 +1,6 @@
-package com.example.recipefinder.model
+package com.example.recipefinder.retrofit
 
+// RecipeResponse.kt
 data class RecipeResponse(
     val results: List<Recipe>
 )
@@ -9,4 +10,3 @@ data class Recipe(
     val title: String,
     val image: String
 )
-

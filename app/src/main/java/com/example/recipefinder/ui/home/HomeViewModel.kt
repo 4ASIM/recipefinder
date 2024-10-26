@@ -1,34 +1,31 @@
 package com.example.recipefinder.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.recipefinder.model.Recipe
-import com.example.recipefinder.model.RecipeResponse
-import com.example.recipefinder.model.RetrofitClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import androidx.lifecycle.viewModelScope
+import com.example.recipefinder.database.DishDatabase.DishRepository
+import com.example.recipefinder.network.Dish
 
-class HomeViewModel : ViewModel() {
-    private val _recipes = MutableLiveData<List<Recipe>>()
-    val recipes: LiveData<List<Recipe>> get() = _recipes
+import kotlinx.coroutines.launch
 
-    fun searchRecipes(query: String, ingredients: String) {
-        RetrofitClient.instance.searchRecipes("", query, ingredients, 3)
-            .enqueue(object : Callback<RecipeResponse> {
-                override fun onResponse(
-                    call: Call<RecipeResponse>,
-                    response: Response<RecipeResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        _recipes.postValue(response.body()?.results ?: emptyList())
-                    }
-                }
+class HomeViewModel(private val repository: DishRepository) : ViewModel() {
 
-                override fun onFailure(call: Call<RecipeResponse>, t: Throwable) {
-                    _recipes.postValue(emptyList())
-                }
-            })
+    fun fetchAndSaveDishes(cuisines: List<String>) {
+        viewModelScope.launch {
+            repository.fetchDishes(cuisines)
+        }
+    }
+
+    fun fetchAndSaveIngredientsAndSteps() {
+        viewModelScope.launch {
+            repository.fetchAndSaveIngredientsAndSteps()
+        }
+    }
+
+    suspend fun getDishCount(): Int {
+        return repository.getDishCount()
+    }
+
+    suspend fun getAllDishes(): List<Dish> {
+        return repository.getAllDishes()
     }
 }

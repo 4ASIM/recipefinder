@@ -1,4 +1,4 @@
-package com.example.recipefinder.database
+package com.example.recipefinder.database.DishDatabase
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -10,3 +10,4 @@ data class DishEntity(
     val image: String,
     val cuisine: String
 )
+

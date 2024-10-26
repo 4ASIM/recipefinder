@@ -1,96 +1,81 @@
 package com.example.recipefinder.ui.home
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
+
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.recipefinder.R
+
+import com.example.recipefinder.database.DishDatabase.DishDatabase
+import com.example.recipefinder.database.DishDatabase.DishRepository
+
 import com.example.recipefinder.databinding.FragmentHomeBinding
-import com.example.recipefinder.ui.dashboard.FavouriteViewModel
-import com.example.recipefinder.ui.dashboard.RecipeAdapter
+
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: HomeViewModel
-    private lateinit var IngredientAdapter: IngredientAdapter
-    private val searchHandler = Handler(Looper.getMainLooper())
-    private var searchRunnable: Runnable? = null
+    private lateinit var homeViewModel: HomeViewModel
+//    private lateinit var gridAdapter: GridAdapter
+    private var job = Job()
+    private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        val dishDao = DishDatabase.getDatabase(requireContext()).dishDao()
+        val ingredientDao = DishDatabase.getDatabase(requireContext()).ingredientDao()
+        val cookingStepDao = DishDatabase.getDatabase(requireContext()).instructionDao()
 
-        val recyclerView: RecyclerView = binding.recyclerView
-        val horizontalLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.layoutManager = horizontalLayoutManager
+        val repository = DishRepository(dishDao, ingredientDao, cookingStepDao)
+        homeViewModel = ViewModelProvider(this, HomeViewModelFactory(repository)).get(HomeViewModel::class.java)
 
-        val horizontalItems = listOf(
-            Pair(R.drawable.maindish, "Main Dish"),
-            Pair(R.drawable.sidedish, "Side Dish"),
-            Pair(R.drawable.appetizers, "Appetizers"),
-            Pair(R.drawable.breakfast, "BreakFast"),
-            Pair(R.drawable.dessert, "Dessert"),
-            Pair(R.drawable.salad, "Salad"),
-            Pair(R.drawable.snacks, "Snack"),
-            Pair(R.drawable.soup, "Soup")
-        )
+        val cuisines = listOf("Italian", "Mexican", "Indian")
+        fetchDishesAndIngredients(cuisines)
 
-        val horizontalAdapter = CardAdapter(horizontalItems)
-        recyclerView.adapter = horizontalAdapter
-
-        IngredientAdapter = IngredientAdapter(listOf())
-        binding.rvIngredent.layoutManager = LinearLayoutManager(context)
-        binding.rvIngredent.adapter = IngredientAdapter
-        viewModel.searchRecipes("", "")
-
-        viewModel.recipes.observe(viewLifecycleOwner, Observer { recipes ->
-            IngredientAdapter.updateRecipes(recipes)
-
-            if (recipes.isEmpty()) {
-                binding.noRecordsFound.visibility = View.VISIBLE
-            } else {
-                binding.noRecordsFound.visibility = View.GONE
-            }
-        })
-
-        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                searchRunnable?.let { searchHandler.removeCallbacks(it) }
-                searchRunnable = Runnable {
-                    newText?.let {
-                        viewModel.searchRecipes(it, "")
-                    }
-                }
-                searchHandler.postDelayed(searchRunnable!!, 300)
-                return true
-            }
-        })
-
-        return root
+        return binding.root
     }
+
+    private fun fetchDishesAndIngredients(cuisines: List<String>) {
+        coroutineScope.launch {
+            val dishCount = withContext(Dispatchers.IO) {
+                homeViewModel.getDishCount()
+            }
+            if (dishCount == 0) {
+                withContext(Dispatchers.IO) {
+                    homeViewModel.fetchAndSaveDishes(cuisines)
+                }
+
+                withContext(Dispatchers.IO) {
+                    homeViewModel.fetchAndSaveIngredientsAndSteps()
+                }
+            }
+        }
+    }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        searchRunnable?.let { searchHandler.removeCallbacks(it) }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 }
+
+
+

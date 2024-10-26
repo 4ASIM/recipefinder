@@ -1,15 +1,18 @@
-package com.example.recipefinder.database
+package com.example.recipefinder.network
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
     private const val BASE_URL = "https://api.spoonacular.com/"
 
-    val api: SpoonacularApi by lazy {
+    private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(SpoonacularApi::class.java)
+    }
+
+    val spoonacularService: SpoonacularApi by lazy {
+        retrofit.create( SpoonacularApi::class.java)
     }
 }
