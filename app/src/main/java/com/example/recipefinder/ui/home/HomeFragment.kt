@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -55,6 +56,17 @@ class HomeFragment : Fragment() {
         // Fetch dishes and ingredients
         val cuisines = listOf("Italian", "Mexican", "Indian")
         fetchDishesAndIngredients(cuisines)
+
+        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                dishAdapter.filter(newText ?: "")
+                return true
+            }
+        })
 
         return binding.root
     }

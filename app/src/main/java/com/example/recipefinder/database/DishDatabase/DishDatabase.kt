@@ -9,7 +9,7 @@ import com.example.recipefinder.database.IngredientDatabase.IngredientEntity
 import com.example.recipefinder.database.InstructionDatabase.InstructionDao
 import com.example.recipefinder.database.InstructionDatabase.InstructionEntity
 
-@Database(entities = [DishEntity::class, IngredientEntity::class, InstructionEntity::class], version = 6)
+@Database(entities = [DishEntity::class, IngredientEntity::class, InstructionEntity::class], version = 10)
 abstract class DishDatabase : RoomDatabase() {
     abstract fun dishDao(): DishDao
     abstract fun ingredientDao(): IngredientDao
