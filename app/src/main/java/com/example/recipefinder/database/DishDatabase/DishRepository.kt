@@ -17,10 +17,10 @@ class DishRepository(
     private val dishDao: DishDao,
     private val ingredientDao: IngredientDao,
     private val cookingStepDao: InstructionDao,
-//    private val savedDishDao: SavedDishDao
 ) {
     private val apiKey = "9d9e99f4d79348318a0227e8886ba4ef"
 
+    // Fetch dishes from API and save them to the database
     suspend fun fetchDishes(cuisines: List<String>) {
         val dishes = mutableListOf<DishEntity>()
 
@@ -36,14 +36,25 @@ class DishRepository(
         }
     }
 
-
+    // Fetch ingredients and steps for dishes, but only if they are not already in the database
     suspend fun fetchAndSaveIngredientsAndSteps() {
         val dishIds = withContext(Dispatchers.IO) {
             dishDao.getAllDishIds()
         }
 
         for (dishId in dishIds) {
-            Log.d("DishRepository", "Fetched ingredients and steps for dishId: $dishId")
+            // Check if ingredients for this dish already exist
+            val existingIngredients = withContext(Dispatchers.IO) {
+                ingredientDao.getIngredientsForDish(dishId)
+            }
+
+            if (existingIngredients.isNotEmpty()) {
+                Log.d("DishRepository", "Ingredients for dishId $dishId already exist. Skipping fetch.")
+                continue // Skip fetching if ingredients already exist
+            }
+
+            // Fetch ingredients and instructions if not already present
+            Log.d("DishRepository", "Fetching ingredients and steps for dishId: $dishId")
             val response = withContext(Dispatchers.IO) {
                 RetrofitInstance.spoonacularService.getRecipeInformation(dishId, apiKey)
             }
@@ -56,7 +67,6 @@ class DishRepository(
                     unit = ingredient.unit
                 )
             }
-
 
             withContext(Dispatchers.IO) {
                 ingredientDao.insertIngredients(ingredients)
@@ -79,40 +89,29 @@ class DishRepository(
         }
     }
 
-
+    // Get the count of dishes in the database
     suspend fun getDishCount(): Int {
         return dishDao.getDishCount()
     }
 
+    // Get all dishes from the database
     suspend fun getAllDishes(): List<Recipe> {
         return withContext(Dispatchers.IO) {
             dishDao.getAllDishes()
         }
     }
 
-
+    // Fetch ingredients for a specific dish
     suspend fun getIngredientsForDish(dishId: Int): List<IngredientEntity> {
         return withContext(Dispatchers.IO) {
             ingredientDao.getIngredientsForDish(dishId)
         }
     }
 
-
+    // Fetch cooking steps for a specific dish
     suspend fun getCookingStepsForDish(dishId: Int): List<InstructionEntity> {
         return withContext(Dispatchers.IO) {
             cookingStepDao.getInstructionsForDish(dishId)
         }
     }
-
-//    suspend fun saveDishId(dishId: Long) {
-//        val savedDish = SavedDishEntity(dishId = dishId)
-//        withContext(Dispatchers.IO) {
-//            savedDishDao.insertSavedDish(savedDish)
-//        }
-//    }
-
-//    suspend fun isDishSaved(dishId: Long): Boolean {
-//        return savedDishDao.isDishSaved(dishId) > 0
-//    }
-
 }

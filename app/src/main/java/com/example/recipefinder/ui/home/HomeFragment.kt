@@ -44,7 +44,8 @@ class HomeFragment : Fragment() {
 
         // Initialize the repository and ViewModel
         val repository = DishRepository(dishDao, ingredientDao, cookingStepDao)
-        homeViewModel = ViewModelProvider(this, HomeViewModelFactory(repository)).get(HomeViewModel::class.java)
+        homeViewModel =
+            ViewModelProvider(this, HomeViewModelFactory(repository)).get(HomeViewModel::class.java)
 
         // Initialize RecyclerView and Adapter
         dishAdapter = DishAdapter(emptyList())
@@ -61,12 +62,12 @@ class HomeFragment : Fragment() {
     private fun fetchDishesAndIngredients(cuisines: List<String>) {
         coroutineScope.launch {
             withContext(Dispatchers.IO) {
-                homeViewModel.fetchAndSaveDishes(cuisines) // Fetch and save dishes first
-                val dishes = homeViewModel.getAllDishes() // Get the saved dishes after fetching
+                homeViewModel.fetchAndSaveDishesIfNeeded(cuisines)
+                homeViewModel.fetchAndSaveIngredientsAndStepsIfNeeded()
+                val dishes = homeViewModel.getAllDishes()
                 withContext(Dispatchers.Main) {
-                    dishAdapter.updateDishes(dishes) // Update the adapter with the fetched dishes
+                    dishAdapter.updateDishes(dishes)
                 }
-                homeViewModel.fetchAndSaveIngredientsAndSteps() // Then fetch and save ingredients and steps
             }
         }
     }

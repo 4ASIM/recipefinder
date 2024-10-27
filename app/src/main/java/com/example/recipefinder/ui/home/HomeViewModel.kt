@@ -10,20 +10,22 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: DishRepository) : ViewModel() {
 
-    fun fetchAndSaveDishes(cuisines: List<String>) {
+    // Fetch dishes from API if needed
+    fun fetchAndSaveDishesIfNeeded(cuisines: List<String>) {
         viewModelScope.launch {
-            repository.fetchDishes(cuisines)
+            val dishCount = repository.getDishCount()
+            if (dishCount == 0) {
+                repository.fetchDishes(cuisines)
+            }
         }
     }
 
-    fun fetchAndSaveIngredientsAndSteps() {
+    // Fetch ingredients and steps from API if needed
+    fun fetchAndSaveIngredientsAndStepsIfNeeded() {
         viewModelScope.launch {
+            // You might not need to call this here anymore if it's handled in the repository
             repository.fetchAndSaveIngredientsAndSteps()
         }
-    }
-
-    suspend fun getDishCount(): Int {
-        return repository.getDishCount()
     }
 
     suspend fun getAllDishes(): List<Recipe> {
