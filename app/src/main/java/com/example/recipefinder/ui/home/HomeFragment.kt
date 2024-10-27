@@ -7,11 +7,13 @@ import android.view.ViewGroup
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.recipefinder.database.DishDatabase.DishDatabase
 import com.example.recipefinder.database.DishDatabase.DishRepository
-
 import com.example.recipefinder.databinding.FragmentHomeBinding
+
+import com.example.recipefinder.retrofit.Recipe
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +26,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
-//    private lateinit var gridAdapter: GridAdapter
+    private lateinit var dishAdapter: DishAdapter // Declare dishAdapter here
     private var job = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
 
@@ -34,13 +36,22 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        // Initialize DAO instances
         val dishDao = DishDatabase.getDatabase(requireContext()).dishDao()
         val ingredientDao = DishDatabase.getDatabase(requireContext()).ingredientDao()
         val cookingStepDao = DishDatabase.getDatabase(requireContext()).instructionDao()
 
+        // Initialize the repository and ViewModel
         val repository = DishRepository(dishDao, ingredientDao, cookingStepDao)
         homeViewModel = ViewModelProvider(this, HomeViewModelFactory(repository)).get(HomeViewModel::class.java)
 
+        // Initialize RecyclerView and Adapter
+        dishAdapter = DishAdapter(emptyList())
+        binding.rvIngredent.adapter = dishAdapter
+        binding.rvIngredent.layoutManager = LinearLayoutManager(context)
+
+        // Fetch dishes and ingredients
         val cuisines = listOf("Italian", "Mexican", "Indian")
         fetchDishesAndIngredients(cuisines)
 
@@ -49,33 +60,14 @@ class HomeFragment : Fragment() {
 
     private fun fetchDishesAndIngredients(cuisines: List<String>) {
         coroutineScope.launch {
-            val dishCount = withContext(Dispatchers.IO) {
-                homeViewModel.getDishCount()
-            }
-            if (dishCount == 0) {
-                withContext(Dispatchers.IO) {
-                    homeViewModel.fetchAndSaveDishes(cuisines)
+            withContext(Dispatchers.IO) {
+                homeViewModel.fetchAndSaveDishes(cuisines) // Fetch and save dishes first
+                val dishes = homeViewModel.getAllDishes() // Get the saved dishes after fetching
+                withContext(Dispatchers.Main) {
+                    dishAdapter.updateDishes(dishes) // Update the adapter with the fetched dishes
                 }
-
-                withContext(Dispatchers.IO) {
-                    homeViewModel.fetchAndSaveIngredientsAndSteps()
-                }
+                homeViewModel.fetchAndSaveIngredientsAndSteps() // Then fetch and save ingredients and steps
             }
         }
     }
-
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        job.cancel()
-    }
 }
-
-
-

@@ -3,7 +3,8 @@ package com.example.recipefinder.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.recipefinder.database.DishDatabase.DishRepository
-import com.example.recipefinder.network.Dish
+import com.example.recipefinder.retrofit.Recipe
+
 
 import kotlinx.coroutines.launch
 
@@ -25,7 +26,7 @@ class HomeViewModel(private val repository: DishRepository) : ViewModel() {
         return repository.getDishCount()
     }
 
-    suspend fun getAllDishes(): List<Dish> {
+    suspend fun getAllDishes(): List<Recipe> {
         return repository.getAllDishes()
     }
 }

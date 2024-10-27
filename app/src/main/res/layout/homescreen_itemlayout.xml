@@ -107,16 +107,18 @@
                     app:layout_constraintStart_toEndOf="@+id/ivTime"
                     app:layout_constraintTop_toTopOf="@+id/ivTime" />
 
-                <ImageView
-                    android:id="@+id/ivVigen"
+                <TextView
+                    android:id="@+id/cusine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
+                    android:text="cousine"
                     app:layout_constraintBottom_toBottomOf="@+id/ivTime"
                     app:layout_constraintStart_toEndOf="@+id/tvTime"
                     app:layout_constraintTop_toTopOf="@+id/ivTime"
                     app:srcCompat="@drawable/baseline_time"
-                    app:tint="@color/white" />
+                    android:textColor="@color/white"/>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

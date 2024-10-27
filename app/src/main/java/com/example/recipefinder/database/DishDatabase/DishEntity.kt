@@ -8,6 +8,8 @@ data class DishEntity(
     @PrimaryKey val id: Int,
     val title: String,
     val image: String,
+    val maxReadyTime: Int?,
     val cuisine: String
+
 )
 

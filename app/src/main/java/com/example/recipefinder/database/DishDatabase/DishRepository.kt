@@ -4,11 +4,11 @@ import com.example.recipefinder.database.IngredientDatabase.IngredientDao
 import com.example.recipefinder.database.IngredientDatabase.IngredientEntity
 import com.example.recipefinder.database.InstructionDatabase.InstructionDao
 import com.example.recipefinder.database.InstructionDatabase.InstructionEntity
-import com.example.recipefinder.network.Dish
 import com.example.recipefinder.network.RetrofitInstance
 
 
 import android.util.Log
+import com.example.recipefinder.retrofit.Recipe
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,7 +19,7 @@ class DishRepository(
     private val cookingStepDao: InstructionDao,
 //    private val savedDishDao: SavedDishDao
 ) {
-    private val apiKey = "b5229cc41ca94edcadecb61b1893c1dd"
+    private val apiKey = "9d9e99f4d79348318a0227e8886ba4ef"
 
     suspend fun fetchDishes(cuisines: List<String>) {
         val dishes = mutableListOf<DishEntity>()
@@ -27,7 +27,7 @@ class DishRepository(
         for (cuisine in cuisines) {
             val response = RetrofitInstance.spoonacularService.searchRecipes(cuisine, 5, apiKey)
             response.results.forEach { recipe ->
-                dishes.add(DishEntity(recipe.id, recipe.title, recipe.image, cuisine))
+                dishes.add(DishEntity(recipe.id, recipe.title, recipe.image, recipe.maxReadyTime, cuisine))
             }
         }
 
@@ -84,7 +84,7 @@ class DishRepository(
         return dishDao.getDishCount()
     }
 
-    suspend fun getAllDishes(): List<Dish> {
+    suspend fun getAllDishes(): List<Recipe> {
         return withContext(Dispatchers.IO) {
             dishDao.getAllDishes()
         }

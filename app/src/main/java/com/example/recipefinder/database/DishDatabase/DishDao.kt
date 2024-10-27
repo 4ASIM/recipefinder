@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.recipefinder.network.Dish
+import com.example.recipefinder.retrofit.Recipe
 
 @Dao
 interface DishDao {
@@ -16,7 +16,7 @@ interface DishDao {
     fun getDishesByCuisine(cuisine: String): List<DishEntity>
 
     @Query("SELECT * FROM dishes")
-    fun getAllDishes(): List<Dish>
+    fun getAllDishes(): List<Recipe>
 
     @Query("SELECT id FROM dishes")
     suspend fun getAllDishIds(): List<Int>
