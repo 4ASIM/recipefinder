@@ -48,8 +48,9 @@ class HomeFragment : Fragment() {
         homeViewModel =
             ViewModelProvider(this, HomeViewModelFactory(repository)).get(HomeViewModel::class.java)
 
+        val nothingFoundTextView = binding.noRecordsFound // Reference to the TextView
         // Initialize RecyclerView and Adapter
-        dishAdapter = DishAdapter(emptyList())
+        dishAdapter = DishAdapter(emptyList(), nothingFoundTextView)
         binding.rvIngredent.adapter = dishAdapter
         binding.rvIngredent.layoutManager = LinearLayoutManager(context)
 

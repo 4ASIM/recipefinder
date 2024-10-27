@@ -3,6 +3,7 @@ package com.example.recipefinder.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,9 +13,10 @@ import com.example.recipefinder.databinding.ItemDishBinding
 import com.example.recipefinder.retrofit.Recipe
 
 
-class DishAdapter(private var dishList: List<Recipe>) : RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
+class DishAdapter(private var dishList: List<Recipe>,private val nothingFoundTextView: TextView) : RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
 
     private var filteredDishList: List<Recipe> = dishList
+
 
     // Update the displayed list based on the search query
     fun filter(query: String) {
@@ -24,6 +26,11 @@ class DishAdapter(private var dishList: List<Recipe>) : RecyclerView.Adapter<Dis
             dishList.filter {
                 it.title.contains(query, ignoreCase = true) || it.cuisine.contains(query, ignoreCase = true)
             }
+        }
+        if (filteredDishList.isEmpty()) {
+            nothingFoundTextView.visibility = View.VISIBLE
+        } else {
+            nothingFoundTextView.visibility = View.GONE
         }
         notifyDataSetChanged()
     }
