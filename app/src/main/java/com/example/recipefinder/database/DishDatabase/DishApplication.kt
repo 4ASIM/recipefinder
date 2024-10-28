@@ -4,5 +4,5 @@ import android.app.Application
 
 class DishApplication : Application() {
     val database by lazy { DishDatabase.getDatabase(this) }
-    val repository by lazy { DishRepository(database.dishDao(),database.ingredientDao(),database.instructionDao()) }
+    val repository by lazy { DishRepository(database.dishDao(),database.ingredientDao(),database.instructionDao(),database.savedDishDao()) }
 }

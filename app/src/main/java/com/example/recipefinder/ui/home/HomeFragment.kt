@@ -42,15 +42,15 @@ class HomeFragment : Fragment() {
         val dishDao = DishDatabase.getDatabase(requireContext()).dishDao()
         val ingredientDao = DishDatabase.getDatabase(requireContext()).ingredientDao()
         val cookingStepDao = DishDatabase.getDatabase(requireContext()).instructionDao()
-
+        val savedDishDao = DishDatabase.getDatabase(requireContext()).savedDishDao()
         // Initialize the repository and ViewModel
-        val repository = DishRepository(dishDao, ingredientDao, cookingStepDao)
+        val repository = DishRepository(dishDao, ingredientDao, cookingStepDao, savedDishDao)
         homeViewModel =
             ViewModelProvider(this, HomeViewModelFactory(repository)).get(HomeViewModel::class.java)
 
         val nothingFoundTextView = binding.noRecordsFound // Reference to the TextView
         // Initialize RecyclerView and Adapter
-        dishAdapter = DishAdapter(emptyList(), nothingFoundTextView)
+        dishAdapter = DishAdapter(requireContext(),emptyList(), nothingFoundTextView)
         binding.rvIngredent.adapter = dishAdapter
         binding.rvIngredent.layoutManager = LinearLayoutManager(context)
 

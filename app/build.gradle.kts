@@ -73,4 +73,8 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
     implementation ("androidx.work:work-runtime:2.8.0")
 
+    implementation ("io.insert-koin:koin-android:3.1.2")
+    implementation ("io.insert-koin:koin-core:3.1.2")
+
+
 }

@@ -17,7 +17,6 @@ class CardAdapter(private val items: List<Pair<Int, String>>) : RecyclerView.Ada
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         holder.bind(items[position])
-
     }
 
     override fun getItemCount(): Int {

@@ -1,10 +1,14 @@
 package com.example.recipefinder.ui.home
 
+import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipefinder.R
@@ -13,7 +17,7 @@ import com.example.recipefinder.databinding.ItemDishBinding
 import com.example.recipefinder.retrofit.Recipe
 
 
-class DishAdapter(private var dishList: List<Recipe>,private val nothingFoundTextView: TextView) : RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
+class DishAdapter(private val context: Context, private var dishList: List<Recipe>, private val nothingFoundTextView: TextView) : RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
 
     private var filteredDishList: List<Recipe> = dishList
 
@@ -54,8 +58,21 @@ class DishAdapter(private var dishList: List<Recipe>,private val nothingFoundTex
             .load(dish.image)
             .into(holder.binding.ivRecipe)
 
+//        holder.itemView.setOnClickListener {
+//            holder.itemView.findNavController().navigate(R.id.detailFragment)
+//        }
         holder.itemView.setOnClickListener {
-            holder.itemView.findNavController().navigate(R.id.detailFragment)
+            val bundle = Bundle().apply {
+                putLong("dish_id", dish.id.toLong())
+                putString("dish_name", dish.title)
+                putString("dish_image", dish.image)
+            }
+
+            val navController = (context as AppCompatActivity).supportFragmentManager
+                .findFragmentById(R.id.nav_host_fragment_activity_dashboard)
+                ?.findNavController()
+
+            navController?.navigate(R.id.detailFragment, bundle)
         }
     }
 

@@ -8,6 +8,8 @@ import com.example.recipefinder.network.RetrofitInstance
 
 
 import android.util.Log
+import com.example.recipefinder.database.favorite.SavedDishDao
+import com.example.recipefinder.database.favorite.SavedDishEntity
 import com.example.recipefinder.retrofit.Recipe
 
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +19,7 @@ class DishRepository(
     private val dishDao: DishDao,
     private val ingredientDao: IngredientDao,
     private val cookingStepDao: InstructionDao,
+    private val savedDishDao: SavedDishDao
 ) {
     private val apiKey = "9d9e99f4d79348318a0227e8886ba4ef"
 
@@ -113,5 +116,16 @@ class DishRepository(
         return withContext(Dispatchers.IO) {
             cookingStepDao.getInstructionsForDish(dishId)
         }
+    }
+
+    suspend fun saveDishId(dishId: Long) {
+        val savedDish = SavedDishEntity(dishId = dishId)
+        withContext(Dispatchers.IO) {
+            savedDishDao.insertSavedDish(savedDish)
+        }
+    }
+
+    suspend fun isDishSaved(dishId: Long): Boolean {
+        return savedDishDao.isDishSaved(dishId) > 0
     }
 }
