@@ -9,5 +9,7 @@ data class IngredientEntity(
     val dishId: Int,
     val name: String,
     val amount: Double,
+    val image: String,
     val unit: String
+
 )

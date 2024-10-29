@@ -11,7 +11,7 @@ import com.example.recipefinder.database.InstructionDatabase.InstructionEntity
 import com.example.recipefinder.database.favorite.SavedDishEntity
 import com.example.recipefinder.database.favorite.SavedDishDao
 
-@Database(entities = [DishEntity::class, IngredientEntity::class, InstructionEntity::class, SavedDishEntity::class], version = 11)
+@Database(entities = [DishEntity::class, IngredientEntity::class, InstructionEntity::class, SavedDishEntity::class], version = 12)
 abstract class DishDatabase : RoomDatabase() {
     abstract fun dishDao(): DishDao
     abstract fun ingredientDao(): IngredientDao

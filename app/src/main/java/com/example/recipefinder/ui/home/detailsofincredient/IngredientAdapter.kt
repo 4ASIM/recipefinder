@@ -11,7 +11,7 @@ import com.example.recipefinder.database.IngredientDatabase.IngredientEntity
 
 class IngredientAdapter(private val ingredients: List<IngredientEntity>) :
     RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {
-
+    private val baseUrl = "https://spoonacular.com/cdn/ingredients_100x100/"
     inner class IngredientViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val ingredientImage: ImageView = view.findViewById(R.id.ingredientImage)
         val ingredientName: TextView = view.findViewById(R.id.ingredientName)
@@ -27,11 +27,9 @@ class IngredientAdapter(private val ingredients: List<IngredientEntity>) :
         val ingredient = ingredients[position]
         holder.ingredientName.text = ingredient.name.capitalizeWords()
 
-        // Load image with Glide (update with correct image field from IngredientEntity if available)
         Glide.with(holder.itemView.context)
-            .load(ingredient.dishId)
-            .placeholder(R.drawable.logorecipe)
-            .error(R.drawable.logorecipe)
+            .load("$baseUrl${ingredient.image}")
+
             .into(holder.ingredientImage)
     }
 

@@ -25,7 +25,7 @@ class DishRepository(
 ) {
     private val apiKey = "9d9e99f4d79348318a0227e8886ba4ef"
 
-    // Fetch dishes from API and save them to the database
+
     suspend fun fetchDishes(cuisines: List<String>) {
         val dishes = mutableListOf<DishEntity>()
 
@@ -69,6 +69,7 @@ class DishRepository(
                     dishId = response.id,
                     name = ingredient.name,
                     amount = ingredient.amount,
+                    image = ingredient.image,
                     unit = ingredient.unit
                 )
             }
