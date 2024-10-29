@@ -26,7 +26,7 @@ class IngredientAdapter(private val ingredients: List<IngredientEntity>) :
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
         val ingredient = ingredients[position]
         holder.ingredientName.text = ingredient.name.capitalizeWords()
-
+        holder.ingredientName.isSelected = true
         Glide.with(holder.itemView.context)
             .load("$baseUrl${ingredient.image}")
 

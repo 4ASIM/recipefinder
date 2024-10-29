@@ -74,8 +74,7 @@
                 android:layout_marginBottom="24dp"
                 app:layout_constraintBottom_toBottomOf="@+id/ivRecipe"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/baseline_favorite"
-                app:tint="@color/red" />
+                />
 
             <TextView
                 android:id="@+id/tvFavorite"

@@ -1,4 +1,4 @@
-package com.example.recipefinder.ui.home
+package com.example.recipefinder.ui.dashboard
 
 import android.content.Context
 import android.os.Bundle
@@ -14,10 +14,11 @@ import com.bumptech.glide.Glide
 import com.example.recipefinder.R
 import com.example.recipefinder.databinding.HomescreenItemlayoutBinding
 import com.example.recipefinder.databinding.ItemDishBinding
+import com.example.recipefinder.databinding.ItemFavouriteBinding
 import com.example.recipefinder.retrofit.Recipe
 
 
-class DishAdapter(private val context: Context, private var dishList: List<Recipe>, private val nothingFoundTextView: TextView) : RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
+class DishssAdapter(private val context: Context, private var dishList: List<Recipe>, private val nothingFoundTextView: TextView) : RecyclerView.Adapter<DishssAdapter.DishssViewHolder>() {
 
     private var filteredDishList: List<Recipe> = dishList
 
@@ -39,28 +40,25 @@ class DishAdapter(private val context: Context, private var dishList: List<Recip
         notifyDataSetChanged()
     }
 
-    class DishViewHolder(val binding: HomescreenItemlayoutBinding) : RecyclerView.ViewHolder(binding.root)
+    class DishssViewHolder(val binding: ItemFavouriteBinding) : RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishAdapter.DishViewHolder {
-        val binding = HomescreenItemlayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return DishViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishssAdapter.DishssViewHolder {
+        val binding =  ItemFavouriteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return DishssViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: DishViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DishssViewHolder, position: Int) {
         if (position >= filteredDishList.size) return  // Prevent index out of bounds
 
         val dish = filteredDishList[position]
         holder.binding.tvTitle.text = dish.title
         holder.binding.cusine.text = dish.cuisine
-        holder.binding.tvTime.text = dish.maxReadyTime.toString()
         holder.binding.tvTitle.isSelected = true
+
         Glide.with(holder.itemView.context)
             .load(dish.image)
             .into(holder.binding.ivRecipe)
 
-//        holder.itemView.setOnClickListener {
-//            holder.itemView.findNavController().navigate(R.id.detailFragment)
-//        }
         holder.itemView.setOnClickListener {
             val bundle = Bundle().apply {
                 putLong("dish_id", dish.id.toLong())
@@ -72,15 +70,14 @@ class DishAdapter(private val context: Context, private var dishList: List<Recip
                 .findFragmentById(R.id.nav_host_fragment_activity_dashboard)
                 ?.findNavController()
 
-            navController?.navigate(R.id.action_navigation_home_to_detailFragment, bundle)
+            navController?.navigate(R.id.detailFragment, bundle)
         }
     }
 
     override fun getItemCount(): Int {
-        return filteredDishList.size  // Use filteredDishList for item count
+        return filteredDishList.size
     }
 
-    // Method to update the list of dishes and notify the adapter
     fun updateDishes(newDishes: List<Recipe>) {
         dishList = newDishes
         filteredDishList = newDishes  // Update filtered list as well

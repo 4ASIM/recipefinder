@@ -55,6 +55,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.8.2")
     implementation("androidx.navigation:navigation-ui-ktx:2.8.2")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.compose.ui:ui-android:1.7.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
@@ -63,8 +64,9 @@ dependencies {
     implementation ("com.google.android.gms:play-services-auth:20.5.0")
 
     //spoonapi
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:retrofit:2.11.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:converter-scalars:2.11.0")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
 
     //room database

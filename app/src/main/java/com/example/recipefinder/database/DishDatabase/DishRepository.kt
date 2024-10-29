@@ -54,12 +54,12 @@ class DishRepository(
             }
 
             if (existingIngredients.isNotEmpty()) {
-                Log.d("DishRepository", "Ingredients for dishId $dishId already exist. Skipping fetch.")
+
                 continue // Skip fetching if ingredients already exist
             }
 
             // Fetch ingredients and instructions if not already present
-            Log.d("DishRepository", "Fetching ingredients and steps for dishId: $dishId")
+
             val response = withContext(Dispatchers.IO) {
                 RetrofitInstance.spoonacularService.getRecipeInformation(dishId, apiKey)
             }

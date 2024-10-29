@@ -23,4 +23,7 @@ interface DishDao {
 
     @Query("SELECT COUNT(*) FROM dishes")
     suspend fun getDishCount(): Int
+
+    @Query("SELECT * FROM dishes WHERE id = :dishId")
+    suspend fun getDishById(dishId: Long): Recipe?
 }

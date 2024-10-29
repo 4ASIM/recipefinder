@@ -1,6 +1,7 @@
 package com.example.recipefinder.network
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 object RetrofitInstance {
     private const val BASE_URL = "https://api.spoonacular.com/"
@@ -9,6 +10,7 @@ object RetrofitInstance {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+//            .addConverterFactory(ScalarsConverterFactory.create())
             .build()
     }
 

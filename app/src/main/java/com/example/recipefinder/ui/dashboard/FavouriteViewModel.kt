@@ -1,36 +1,26 @@
-//package com.example.recipefinder.ui.dashboard
-//
-//
-//import androidx.lifecycle.LiveData
-//import androidx.lifecycle.MutableLiveData
-//import androidx.lifecycle.ViewModel
-//import com.example.recipefinder.model.Recipe
-//import com.example.recipefinder.model.RetrofitClient
-//import retrofit2.Call
-//import retrofit2.Callback
-//import retrofit2.Response
-//
-//
-//class FavouriteViewModel : ViewModel() {
-//
-//    private val _recipes = MutableLiveData<List<Recipe>>()
-//    val recipes: LiveData<List<Recipe>> get() = _recipes
-//
-//    fun searchRecipes(query: String, ingredients: String) {
-//        RetrofitClient.instance.searchRecipes("d5e31bd7064846d4bc71299db2f9570e", query, ingredients, 5)
-//            .enqueue(object : Callback<com.example.recipefinder.model.RecipeResponse> {
-//                override fun onResponse(
-//                    call: Call<com.example.recipefinder.model.RecipeResponse>,
-//                    response: Response<com.example.recipefinder.model.RecipeResponse>
-//                ) {
-//                    if (response.isSuccessful) {
-//                        _recipes.postValue(response.body()?.results ?: emptyList())
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<com.example.recipefinder.model.RecipeResponse>, t: Throwable) {
-//                    _recipes.postValue(emptyList())
-//                }
-//            })
-//    }
-//}
+package com.example.recipefinder.ui.dashboard
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.recipefinder.database.DishDatabase.DishDao
+import com.example.recipefinder.database.favorite.SavedDishDao
+import com.example.recipefinder.retrofit.Recipe
+import kotlinx.coroutines.launch
+
+class FavouriteViewModel(
+    private val savedDishDao: SavedDishDao,
+    private val dishDao: DishDao
+) : ViewModel() {
+
+
+    fun getSavedDishes(onResult: (List<Recipe>) -> Unit) {
+        viewModelScope.launch {
+            // Get all saved dish IDs
+            val savedDishIds = savedDishDao.getAllSavedDishIds() // Assuming you have this method in your SavedDishDao
+            val savedDishes = savedDishIds.mapNotNull { dishId ->
+                dishDao.getDishById(dishId) // Assuming you have a method to get a dish by ID
+            }
+            onResult(savedDishes)
+        }
+    }
+}
