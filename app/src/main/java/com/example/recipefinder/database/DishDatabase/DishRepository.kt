@@ -10,6 +10,8 @@ import com.example.recipefinder.network.RetrofitInstance
 import android.util.Log
 import com.example.recipefinder.database.DishDatabase.DishDao
 import com.example.recipefinder.database.DishDatabase.DishEntity
+import com.example.recipefinder.database.Shoppinglistitems.ShoppingListDao
+import com.example.recipefinder.database.Shoppinglistitems.ShoppingListItem
 import com.example.recipefinder.database.favorite.SavedDishDao
 import com.example.recipefinder.database.favorite.SavedDishEntity
 import com.example.recipefinder.retrofit.Recipe
@@ -21,7 +23,8 @@ class DishRepository(
     private val dishDao: DishDao,
     private val ingredientDao: IngredientDao,
     private val cookingStepDao: InstructionDao,
-    private val savedDishDao: SavedDishDao
+    private val savedDishDao: SavedDishDao,
+    val shoppingListDao: ShoppingListDao
 ) {
     private val apiKey = "9d9e99f4d79348318a0227e8886ba4ef"
 
@@ -128,7 +131,20 @@ class DishRepository(
         }
     }
 
+    suspend fun addShoppingListItem(item: ShoppingListItem) {
+        shoppingListDao.insert(item)
+    }
+
+    suspend fun getShoppingList(): List<ShoppingListItem> {
+        return shoppingListDao.getAllItems()
+    }
+
+    suspend fun clearShoppingList() {
+        shoppingListDao.clearShoppingList()
+    }
+
     suspend fun isDishSaved(dishId: Long): Boolean {
         return savedDishDao.isDishSaved(dishId) > 0
     }
 }
+

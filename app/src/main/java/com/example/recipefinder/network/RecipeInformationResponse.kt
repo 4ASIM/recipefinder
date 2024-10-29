@@ -4,6 +4,7 @@ data class RecipeInformationResponse(
     val id: Int,
     val title: String,
     val extendedIngredients: List<Ingredient>,
+//    val readyInMinutes: Int,
     val analyzedInstructions: List<Instruction>
 )
 

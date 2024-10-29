@@ -31,8 +31,9 @@ class FavouriteFragment : Fragment() {
         val ingredientDao = DishDatabase.getDatabase(requireContext()).ingredientDao()
         val cookingStepDao = DishDatabase.getDatabase(requireContext()).instructionDao()
         val savedDishDao = DishDatabase.getDatabase(requireContext()).savedDishDao()
+        val shoppingListDao = DishDatabase.getDatabase(requireContext()).shoppingListDao()
         // Initialize the repository and ViewModel
-        val repository = DishRepository(dishDao, ingredientDao, cookingStepDao, savedDishDao)
+        val repository = DishRepository(dishDao, ingredientDao, cookingStepDao, savedDishDao,shoppingListDao)
 
         viewModel = ViewModelProvider(this, FavouriteViewModelFactory(savedDishDao, dishDao)).get(FavouriteViewModel::class.java)
 

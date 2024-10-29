@@ -62,7 +62,16 @@
             app:layout_constraintStart_toStartOf="@id/gradient_overlay"
             app:layout_constraintTop_toTopOf="@id/gradient_overlay" />
 
-
+        <ImageView
+            android:id="@+id/addToShoppinglist"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/baseline_add_shopping_cart_24"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dishPic"
+            app:layout_constraintBottom_toTopOf="@+id/ingredientsRecyclerView"
+             />
         <TextView
             android:id="@+id/Ingredeints"
             android:layout_width="wrap_content"

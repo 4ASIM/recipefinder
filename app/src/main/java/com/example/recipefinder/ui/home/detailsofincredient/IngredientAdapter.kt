@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipefinder.R
 import com.example.recipefinder.database.IngredientDatabase.IngredientEntity
+import com.google.android.material.snackbar.Snackbar
 
-class IngredientAdapter(private val ingredients: List<IngredientEntity>) :
-    RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {
+class IngredientAdapter(private val ingredients: List<IngredientEntity>,
+                        private val onItemClick: (IngredientEntity) -> Unit
+) : RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {
     private val baseUrl = "https://spoonacular.com/cdn/ingredients_100x100/"
     inner class IngredientViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val ingredientImage: ImageView = view.findViewById(R.id.ingredientImage)
@@ -29,8 +31,12 @@ class IngredientAdapter(private val ingredients: List<IngredientEntity>) :
         holder.ingredientName.isSelected = true
         Glide.with(holder.itemView.context)
             .load("$baseUrl${ingredient.image}")
-
             .into(holder.ingredientImage)
+
+        holder.itemView.setOnClickListener {
+            onItemClick(ingredient)
+            Snackbar.make(holder.itemView, "Item Added successfully", Snackbar.LENGTH_SHORT).show()
+              }
     }
 
     override fun getItemCount(): Int = ingredients.size
