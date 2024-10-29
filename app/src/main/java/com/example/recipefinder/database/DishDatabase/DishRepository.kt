@@ -8,6 +8,8 @@ import com.example.recipefinder.network.RetrofitInstance
 
 
 import android.util.Log
+import com.example.recipefinder.database.DishDatabase.DishDao
+import com.example.recipefinder.database.DishDatabase.DishEntity
 import com.example.recipefinder.database.favorite.SavedDishDao
 import com.example.recipefinder.database.favorite.SavedDishEntity
 import com.example.recipefinder.retrofit.Recipe

@@ -14,80 +14,76 @@
 
         <ImageView
             android:id="@+id/dishPic"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/breakfast"
             android:contentDescription="@string/app_name"
-            android:scaleType="fitXY"/>
-
-        <TextView
-            android:id="@+id/foodName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="food"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/dishPic"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/addToFavorite"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:fontFamily="@font/productsansmedium"
-            android:layout_marginTop="10dp"/>
+            android:scaleType="centerCrop"/>
+        <View
+            android:id="@+id/gradient_overlay"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:background="@drawable/gradient_overlay"
+            app:layout_constraintBottom_toBottomOf="@+id/dishPic"
+            app:layout_constraintEnd_toEndOf="@+id/dishPic"
+            app:layout_constraintStart_toStartOf="@+id/dishPic"
+            app:layout_constraintTop_toTopOf="@+id/dishPic"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageView
             android:id="@+id/addToFavorite"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            app:layout_constraintTop_toBottomOf="@id/dishPic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/foodName"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/baseline_favorite"
             android:layout_marginEnd="10dp"
-            android:contentDescription="@string/app_name"/>
-
-        <View
-            android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:layout_constraintTop_toBottomOf="@id/foodName"
-            android:layout_marginTop="15dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/baseline_favorite"
+            app:layout_constraintBottom_toBottomOf="@+id/gradient_overlay"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@android:color/black"/>
+            app:layout_constraintTop_toTopOf="@+id/gradient_overlay" />
+
+        <TextView
+            android:id="@+id/foodName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/productsansmedium"
+            android:text="@string/dish_name"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="@+id/dishPic"
+            app:layout_constraintStart_toStartOf="@id/gradient_overlay"
+            app:layout_constraintTop_toTopOf="@id/gradient_overlay" />
+
 
         <TextView
             android:id="@+id/Ingredeints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ingredient"
+            android:text="@string/ingredients_heading"
             android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/line"
+            app:layout_constraintTop_toBottomOf="@id/dishPic"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="10dp"
+            android:textSize="20sp"
             android:fontFamily="@font/productsansmedium"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="20dp"/>
 
-        <TextView
-            android:id="@+id/IngredeintsItems"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ingredientsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/Ingredeints"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="10dp"
-            android:fontFamily="@font/productsansregular"
-            android:layout_marginTop="10dp"/>
+            app:layout_constraintTop_toBottomOf="@id/Ingredeints" />
 
         <View
             android:id="@+id/lineBelow"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            app:layout_constraintTop_toBottomOf="@id/IngredeintsItems"
+            app:layout_constraintTop_toBottomOf="@id/ingredientsRecyclerView"
             android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -97,8 +93,9 @@
             android:id="@+id/AmountHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="amount"
+            android:text="@string/amount_heading"
             android:textColor="@color/black"
+            android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@id/lineBelow"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="10dp"
@@ -120,7 +117,7 @@
         <View
             android:id="@+id/lineBottom"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2dp"
             app:layout_constraintTop_toBottomOf="@id/ingredientAmount"
             android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -131,8 +128,9 @@
             android:id="@+id/StepsHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="step"
+            android:text="@string/steps_heading"
             android:textColor="@color/black"
+            android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@id/lineBottom"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="10dp"
