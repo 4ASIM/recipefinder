@@ -18,7 +18,7 @@ import com.example.recipefinder.databinding.ItemFavouriteBinding
 import com.example.recipefinder.retrofit.Recipe
 
 
-class DishssAdapter(private val context: Context, private var dishList: List<Recipe>, private val nothingFoundTextView: TextView) : RecyclerView.Adapter<DishssAdapter.DishssViewHolder>() {
+class DishssAdapter(private val context: Context, private var dishList: List<Recipe>, private val nothingFoundTextView: TextView,private val onDeleteClicked: (Recipe) -> Unit) : RecyclerView.Adapter<DishssAdapter.DishssViewHolder>() {
 
     private var filteredDishList: List<Recipe> = dishList
 
@@ -57,7 +57,9 @@ class DishssAdapter(private val context: Context, private var dishList: List<Rec
         Glide.with(holder.itemView.context)
             .load(dish.image)
             .into(holder.binding.ivRecipe)
-
+        holder.binding.ivDelete.setOnClickListener {
+            onDeleteClicked(dish) // Call the callback with the dish to delete
+        }
         holder.itemView.setOnClickListener {
             val bundle = Bundle().apply {
                 putLong("dish_id", dish.id.toLong())

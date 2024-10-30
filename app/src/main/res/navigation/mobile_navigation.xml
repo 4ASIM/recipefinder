@@ -32,7 +32,7 @@
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" />
     <fragment
-        android:id="@+id/shoppingListFragment"
+        android:id="@+id/navigation_Shoppinglist"
         android:name="com.example.recipefinder.ui.Shoppinglist.ShoppingListFragment"
         android:label="fragment_shopping_list"
         tools:layout="@layout/fragment_shopping_list" />

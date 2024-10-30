@@ -16,6 +16,9 @@ interface SavedDishDao {
     @Query("SELECT dishId FROM saved_dishes")
     suspend fun getAllSavedDishIds(): List<Long>
 
-    @Query("DELETE FROM saved_dishes WHERE id = :dishId")
+
+    @Query("DELETE FROM saved_dishes WHERE dishId = :dishId")
     suspend fun deleteByDishId(dishId: Long)
+
+
 }

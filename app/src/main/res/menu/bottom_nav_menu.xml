@@ -10,6 +10,10 @@
         android:id="@+id/navigation_favourite"
         android:icon="@drawable/baseline_favorite"
         android:title="@string/title_Favourite" />
+    <item
+        android:id="@+id/navigation_Shoppinglist"
+        android:icon="@drawable/baseline_add_shopping_cart_24"
+        android:title="@string/title_shoppinglist" />
 
     <item
         android:id="@+id/navigation_setting"

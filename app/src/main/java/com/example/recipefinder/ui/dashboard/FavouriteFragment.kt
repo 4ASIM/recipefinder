@@ -36,21 +36,18 @@ class FavouriteFragment : Fragment() {
         val repository = DishRepository(dishDao, ingredientDao, cookingStepDao, savedDishDao,shoppingListDao)
 
         viewModel = ViewModelProvider(this, FavouriteViewModelFactory(savedDishDao, dishDao)).get(FavouriteViewModel::class.java)
+        dishAdapter = DishssAdapter(requireContext(), emptyList(), binding.noRecordsFound) { dish ->
+            viewModel.deleteDish(dish)
+        }
 
-
-        dishAdapter = DishssAdapter(requireContext(), emptyList(), binding.noRecordsFound)
         binding.rvFavorite.adapter = dishAdapter
         binding.rvFavorite.layoutManager = LinearLayoutManager(context)
 
-        fetchSavedDishes()
-
-        return binding.root
-    }
-
-    private fun fetchSavedDishes() {
-        viewModel.getSavedDishes { savedDishes ->
-            dishAdapter.updateDishes(savedDishes)
+        viewModel.savedDishes.observe(viewLifecycleOwner) { updatedDishes ->
+            dishAdapter.updateDishes(updatedDishes)
         }
+        viewModel.getSavedDishes()
+        return binding.root
     }
 
     override fun onDestroyView() {

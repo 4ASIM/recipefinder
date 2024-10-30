@@ -9,6 +9,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.recipefinder.R
 
 import com.example.recipefinder.database.DishDatabase.DishDatabase
 import com.example.recipefinder.database.DishDatabase.DishRepository
@@ -37,7 +39,25 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val recyclerView: RecyclerView = binding.recyclerView
+        val horizontalLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = horizontalLayoutManager
 
+        // Data for horizontal RecyclerView
+        val horizontalItems = listOf(
+            Pair(R.drawable.maindish, "Main Dish"),
+            Pair(R.drawable.sidedish, "Side Dish"),
+            Pair(R.drawable.appetizers, "Appetizers"),
+            Pair(R.drawable.breakfast, "BreakFast"),
+            Pair(R.drawable.dessert, "Dessert"),
+            Pair(R.drawable.salad, "Salad"),
+            Pair(R.drawable.snacks, "Snack"),
+            Pair(R.drawable.soup, "Soup")
+        )
+
+        // Set adapter for the horizontal RecyclerView
+        val horizontalAdapter = CardAdapter(horizontalItems)
+        recyclerView.adapter = horizontalAdapter
 
         val dishDao = DishDatabase.getDatabase(requireContext()).dishDao()
         val ingredientDao = DishDatabase.getDatabase(requireContext()).ingredientDao()

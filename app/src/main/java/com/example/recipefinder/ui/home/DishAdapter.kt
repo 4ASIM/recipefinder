@@ -22,7 +22,6 @@ class DishAdapter(private val context: Context, private var dishList: List<Recip
     private var filteredDishList: List<Recipe> = dishList
 
 
-    // Update the displayed list based on the search query
     fun filter(query: String) {
         filteredDishList = if (query.isEmpty()) {
             dishList
@@ -31,7 +30,7 @@ class DishAdapter(private val context: Context, private var dishList: List<Recip
                 it.title.contains(query, ignoreCase = true) || it.cuisine.contains(query, ignoreCase = true)
             }
         }
-        if (filteredDishList.isEmpty()) {
+        if (filteredDishList.isEmpty() && query.isNotEmpty()) {
             nothingFoundTextView.visibility = View.VISIBLE
         } else {
             nothingFoundTextView.visibility = View.GONE
