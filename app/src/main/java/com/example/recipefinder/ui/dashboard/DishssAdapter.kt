@@ -23,7 +23,6 @@ class DishssAdapter(private val context: Context, private var dishList: List<Rec
     private var filteredDishList: List<Recipe> = dishList
 
 
-    // Update the displayed list based on the search query
     fun filter(query: String) {
         filteredDishList = if (query.isEmpty()) {
             dishList
@@ -80,7 +79,7 @@ class DishssAdapter(private val context: Context, private var dishList: List<Rec
 
     fun updateDishes(newDishes: List<Recipe>) {
         dishList = newDishes
-        filteredDishList = newDishes  // Update filtered list as well
+        filteredDishList = newDishes
         notifyDataSetChanged()
     }
 }

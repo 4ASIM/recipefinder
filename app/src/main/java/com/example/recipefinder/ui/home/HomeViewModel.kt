@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: DishRepository) : ViewModel() {
 
-    // Fetch dishes from API if needed
     fun fetchAndSaveDishesIfNeeded(cuisines: List<String>) {
         viewModelScope.launch {
             val dishCount = repository.getDishCount()
@@ -19,11 +18,8 @@ class HomeViewModel(private val repository: DishRepository) : ViewModel() {
             }
         }
     }
-
-    // Fetch ingredients and steps from API if needed
     fun fetchAndSaveIngredientsAndStepsIfNeeded() {
         viewModelScope.launch {
-            // You might not need to call this here anymore if it's handled in the repository
             repository.fetchAndSaveIngredientsAndSteps()
         }
     }

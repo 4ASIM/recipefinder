@@ -15,10 +15,10 @@ class FavouriteViewModel(
 
     fun getSavedDishes(onResult: (List<Recipe>) -> Unit) {
         viewModelScope.launch {
-            // Get all saved dish IDs
-            val savedDishIds = savedDishDao.getAllSavedDishIds() // Assuming you have this method in your SavedDishDao
+
+            val savedDishIds = savedDishDao.getAllSavedDishIds()
             val savedDishes = savedDishIds.mapNotNull { dishId ->
-                dishDao.getDishById(dishId) // Assuming you have a method to get a dish by ID
+                dishDao.getDishById(dishId)
             }
             onResult(savedDishes)
         }

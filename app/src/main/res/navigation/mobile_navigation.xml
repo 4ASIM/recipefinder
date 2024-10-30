@@ -31,6 +31,11 @@
         android:name="com.example.recipefinder.ui.home.detailsofincredient.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" />
+    <fragment
+        android:id="@+id/shoppingListFragment"
+        android:name="com.example.recipefinder.ui.Shoppinglist.ShoppingListFragment"
+        android:label="fragment_shopping_list"
+        tools:layout="@layout/fragment_shopping_list" />
 
 
 </navigation>

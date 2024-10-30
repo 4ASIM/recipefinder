@@ -47,7 +47,7 @@ class DishAdapter(private val context: Context, private var dishList: List<Recip
     }
 
     override fun onBindViewHolder(holder: DishViewHolder, position: Int) {
-        if (position >= filteredDishList.size) return  // Prevent index out of bounds
+        if (position >= filteredDishList.size) return
 
         val dish = filteredDishList[position]
         holder.binding.tvTitle.text = dish.title
@@ -77,13 +77,13 @@ class DishAdapter(private val context: Context, private var dishList: List<Recip
     }
 
     override fun getItemCount(): Int {
-        return filteredDishList.size  // Use filteredDishList for item count
+        return filteredDishList.size
     }
 
-    // Method to update the list of dishes and notify the adapter
+
     fun updateDishes(newDishes: List<Recipe>) {
         dishList = newDishes
-        filteredDishList = newDishes  // Update filtered list as well
+        filteredDishList = newDishes
         notifyDataSetChanged()
     }
 }

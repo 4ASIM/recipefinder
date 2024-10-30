@@ -32,17 +32,16 @@ class FavouriteFragment : Fragment() {
         val cookingStepDao = DishDatabase.getDatabase(requireContext()).instructionDao()
         val savedDishDao = DishDatabase.getDatabase(requireContext()).savedDishDao()
         val shoppingListDao = DishDatabase.getDatabase(requireContext()).shoppingListDao()
-        // Initialize the repository and ViewModel
+
         val repository = DishRepository(dishDao, ingredientDao, cookingStepDao, savedDishDao,shoppingListDao)
 
         viewModel = ViewModelProvider(this, FavouriteViewModelFactory(savedDishDao, dishDao)).get(FavouriteViewModel::class.java)
 
-        // Initialize RecyclerView and Adapter
+
         dishAdapter = DishssAdapter(requireContext(), emptyList(), binding.noRecordsFound)
         binding.rvFavorite.adapter = dishAdapter
         binding.rvFavorite.layoutManager = LinearLayoutManager(context)
 
-        // Fetch and display saved dishes
         fetchSavedDishes()
 
         return binding.root

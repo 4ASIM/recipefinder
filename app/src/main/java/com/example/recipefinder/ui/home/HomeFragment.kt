@@ -27,7 +27,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var dishAdapter: DishAdapter // Declare dishAdapter here
+    private lateinit var dishAdapter: DishAdapter
     private var job = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
 
@@ -38,24 +38,23 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        // Initialize DAO instances
+
         val dishDao = DishDatabase.getDatabase(requireContext()).dishDao()
         val ingredientDao = DishDatabase.getDatabase(requireContext()).ingredientDao()
         val cookingStepDao = DishDatabase.getDatabase(requireContext()).instructionDao()
         val savedDishDao = DishDatabase.getDatabase(requireContext()).savedDishDao()
         val shoppingListDao = DishDatabase.getDatabase(requireContext()).shoppingListDao()
-        // Initialize the repository and ViewModel
+
         val repository = DishRepository(dishDao, ingredientDao, cookingStepDao, savedDishDao, shoppingListDao)
         homeViewModel =
             ViewModelProvider(this, HomeViewModelFactory(repository)).get(HomeViewModel::class.java)
 
-        val nothingFoundTextView = binding.noRecordsFound // Reference to the TextView
-        // Initialize RecyclerView and Adapter
+        val nothingFoundTextView = binding.noRecordsFound
+
         dishAdapter = DishAdapter(requireContext(),emptyList(), nothingFoundTextView)
         binding.rvIngredent.adapter = dishAdapter
         binding.rvIngredent.layoutManager = LinearLayoutManager(context)
 
-        // Fetch dishes and ingredients
         val cuisines = listOf("Italian", "Mexican", "Indian")
         fetchDishesAndIngredients(cuisines)
 

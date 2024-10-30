@@ -44,24 +44,21 @@ class DishRepository(
         }
     }
 
-    // Fetch ingredients and steps for dishes, but only if they are not already in the database
     suspend fun fetchAndSaveIngredientsAndSteps() {
         val dishIds = withContext(Dispatchers.IO) {
             dishDao.getAllDishIds()
         }
 
         for (dishId in dishIds) {
-            // Check if ingredients for this dish already exist
             val existingIngredients = withContext(Dispatchers.IO) {
                 ingredientDao.getIngredientsForDish(dishId)
             }
 
             if (existingIngredients.isNotEmpty()) {
 
-                continue // Skip fetching if ingredients already exist
+                continue
             }
 
-            // Fetch ingredients and instructions if not already present
 
             val response = withContext(Dispatchers.IO) {
                 RetrofitInstance.spoonacularService.getRecipeInformation(dishId, apiKey)
@@ -91,33 +88,28 @@ class DishRepository(
                 }
             }
 
-            // Insert cooking steps in IO context
             withContext(Dispatchers.IO) {
                 cookingStepDao.insertInstructions(steps)
             }
         }
     }
 
-    // Get the count of dishes in the database
     suspend fun getDishCount(): Int {
         return dishDao.getDishCount()
     }
 
-    // Get all dishes from the database
     suspend fun getAllDishes(): List<Recipe> {
         return withContext(Dispatchers.IO) {
             dishDao.getAllDishes()
         }
     }
 
-    // Fetch ingredients for a specific dish
     suspend fun getIngredientsForDish(dishId: Int): List<IngredientEntity> {
         return withContext(Dispatchers.IO) {
             ingredientDao.getIngredientsForDish(dishId)
         }
     }
 
-    // Fetch cooking steps for a specific dish
     suspend fun getCookingStepsForDish(dishId: Int): List<InstructionEntity> {
         return withContext(Dispatchers.IO) {
             cookingStepDao.getInstructionsForDish(dishId)
