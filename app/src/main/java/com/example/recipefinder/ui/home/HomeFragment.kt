@@ -1,13 +1,16 @@
 package com.example.recipefinder.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipefinder.R
@@ -24,7 +27,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(),ItemClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -71,7 +74,7 @@ class HomeFragment : Fragment() {
 
         val nothingFoundTextView = binding.noRecordsFound
 
-        dishAdapter = DishAdapter(requireContext(),emptyList(), nothingFoundTextView)
+        dishAdapter = DishAdapter(this,requireContext(),emptyList(), nothingFoundTextView)
         binding.rvIngredent.adapter = dishAdapter
         binding.rvIngredent.layoutManager = LinearLayoutManager(context)
 
@@ -103,5 +106,19 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onItemClick(position: Int, dish: Recipe) {
+        Log.e("TAG", "onItemClick: $position ${dish.title}" )
+        val bundle = Bundle().apply {
+            putLong("dish_id", dish.id.toLong())
+            putString("dish_name", dish.title)
+            putString("dish_image", dish.image)
+        }
+        val navController = (context as AppCompatActivity).supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment_activity_dashboard)
+            ?.findNavController()
+
+        navController?.navigate(R.id.action_navigation_home_to_detailFragment, bundle)
     }
 }

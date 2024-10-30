@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -17,10 +18,9 @@ import com.example.recipefinder.databinding.ItemDishBinding
 import com.example.recipefinder.retrofit.Recipe
 
 
-class DishAdapter(private val context: Context, private var dishList: List<Recipe>, private val nothingFoundTextView: TextView) : RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
+class DishAdapter(var listener: ItemClickListener,private val context: Context, private var dishList: List<Recipe>, private val nothingFoundTextView: TextView) : RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
 
     private var filteredDishList: List<Recipe> = dishList
-
 
     fun filter(query: String) {
         filteredDishList = if (query.isEmpty()) {
@@ -57,21 +57,24 @@ class DishAdapter(private val context: Context, private var dishList: List<Recip
             .load(dish.image)
             .into(holder.binding.ivRecipe)
 
-//        holder.itemView.setOnClickListener {
-//            holder.itemView.findNavController().navigate(R.id.detailFragment)
-//        }
         holder.itemView.setOnClickListener {
-            val bundle = Bundle().apply {
-                putLong("dish_id", dish.id.toLong())
-                putString("dish_name", dish.title)
-                putString("dish_image", dish.image)
-            }
+            holder.itemView.findNavController().navigate(R.id.detailFragment)
+        }
+        holder.itemView.setOnClickListener {
 
-            val navController = (context as AppCompatActivity).supportFragmentManager
-                .findFragmentById(R.id.nav_host_fragment_activity_dashboard)
-                ?.findNavController()
+            listener.onItemClick(position,dish)
+//
+//            val bundle = Bundle().apply {
+//                putLong("dish_id", dish.id.toLong())
+//                putString("dish_name", dish.title)
+//                putString("dish_image", dish.image)
+//            }
 
-            navController?.navigate(R.id.action_navigation_home_to_detailFragment, bundle)
+//            val navController = (context as AppCompatActivity).supportFragmentManager
+//                .findFragmentById(R.id.nav_host_fragment_activity_dashboard)
+//                ?.findNavController()
+//
+//            navController?.navigate(R.id.action_navigation_home_to_detailFragment, bundle)
         }
     }
 
@@ -85,4 +88,8 @@ class DishAdapter(private val context: Context, private var dishList: List<Recip
         filteredDishList = newDishes
         notifyDataSetChanged()
     }
+}
+
+interface ItemClickListener{
+    fun onItemClick(position: Int,dish: Recipe )
 }

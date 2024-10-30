@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
             val intent = if (currentUser != null) {
                 Intent(this, Dashboard::class.java)
             } else {
-                Intent(this, Dashboard::class.java)
+                Intent(this, loginscreen::class.java)
             }
             startActivity(intent)
             finish()
