@@ -1,13 +1,14 @@
 package com.example.recipefinder.ui.home
 
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -35,6 +36,10 @@ class HomeFragment : Fragment(),ItemClickListener {
     private lateinit var dishAdapter: DishAdapter
     private var job = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
+    private val autoScrollHandler = Handler(Looper.getMainLooper())
+    private var autoScrollRunnable: Runnable? = null
+    private lateinit var recyclerView: RecyclerView
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,25 +47,25 @@ class HomeFragment : Fragment(),ItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val recyclerView: RecyclerView = binding.recyclerView
+        recyclerView = binding.recyclerView
         val horizontalLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = horizontalLayoutManager
-
         // Data for horizontal RecyclerView
         val horizontalItems = listOf(
-            Pair(R.drawable.maindish, "Main Dish"),
-            Pair(R.drawable.sidedish, "Side Dish"),
-            Pair(R.drawable.appetizers, "Appetizers"),
-            Pair(R.drawable.breakfast, "BreakFast"),
-            Pair(R.drawable.dessert, "Dessert"),
-            Pair(R.drawable.salad, "Salad"),
-            Pair(R.drawable.snacks, "Snack"),
-            Pair(R.drawable.soup, "Soup")
+            Pair(R.drawable.maindish, "Mexican"),
+            Pair(R.drawable.sidedish, "Chinese"),
+            Pair(R.drawable.appetizers, "Italian"),
+            Pair(R.drawable.breakfast, "Mexican"),
+            Pair(R.drawable.dessert, "Japanese"),
+            Pair(R.drawable.salad, "Pakistani"),
+            Pair(R.drawable.snacks, "Indian"),
+            Pair(R.drawable.soup, "Spanish")
         )
 
         // Set adapter for the horizontal RecyclerView
         val horizontalAdapter = CardAdapter(horizontalItems)
         recyclerView.adapter = horizontalAdapter
+        startAutoScroll()
 
         val dishDao = DishDatabase.getDatabase(requireContext()).dishDao()
         val ingredientDao = DishDatabase.getDatabase(requireContext()).ingredientDao()
@@ -121,4 +126,37 @@ class HomeFragment : Fragment(),ItemClickListener {
 
         navController?.navigate(R.id.action_navigation_home_to_detailFragment, bundle)
     }
+    private fun startAutoScroll() {
+        autoScrollRunnable = Runnable {
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+            val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+            val itemCount = recyclerView.adapter?.itemCount ?: 0
+
+            // Scroll to the next position or wrap around to the beginning
+            if (lastVisiblePosition < itemCount - 1) {
+                recyclerView.smoothScrollToPosition(lastVisiblePosition + 1)
+            } else {
+                recyclerView.smoothScrollToPosition(0) // Start over if at the end
+            }
+
+            autoScrollHandler.postDelayed(autoScrollRunnable!!, 3000) // Adjust the delay as needed
+        }
+        autoScrollHandler.post(autoScrollRunnable!!)
+    }
+
+    private fun stopAutoScroll() {
+        autoScrollHandler.removeCallbacks(autoScrollRunnable!!)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        stopAutoScroll()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        startAutoScroll()
+    }
 }
+

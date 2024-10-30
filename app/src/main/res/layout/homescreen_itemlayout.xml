@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="4dp"
 
     android:layout_marginBottom="4dp">
@@ -27,8 +28,8 @@
                 android:id="@+id/ivRecipe"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/salad"
+                android:scaleType="fitXY"
+                tools:src="@drawable/salad"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="16:9"
                 app:layout_constraintEnd_toEndOf="parent"
