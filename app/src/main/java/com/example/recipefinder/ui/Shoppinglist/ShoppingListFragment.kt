@@ -1,47 +1,57 @@
 package com.example.recipefinder.ui.Shoppinglist
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.recipefinder.R
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.recipefinder.database.DishDatabase.DishDatabase
+import com.example.recipefinder.database.DishDatabase.DishRepository
+import com.example.recipefinder.databinding.FragmentShoppingListBinding
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ShoppingListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class ShoppingListFragment : Fragment() {
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private var _binding: FragmentShoppingListBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var viewModel: ShoppingListViewModel
+    private lateinit var shoppingListAdapter: ShoppingListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shopping_list, container, false)
+    ): View {
+        _binding = FragmentShoppingListBinding.inflate(inflater, container, false)
+
+        val shoppingListDao = DishDatabase.getDatabase(requireContext()).shoppingListDao()
+        val repository = DishRepository(
+            DishDatabase.getDatabase(requireContext()).dishDao(),
+            DishDatabase.getDatabase(requireContext()).ingredientDao(),
+            DishDatabase.getDatabase(requireContext()).instructionDao(),
+            DishDatabase.getDatabase(requireContext()).savedDishDao(),
+            shoppingListDao
+        )
+
+        viewModel = ViewModelProvider(this, ShoppingListViewModelFactory(shoppingListDao)).get(ShoppingListViewModel::class.java)
+
+        shoppingListAdapter = ShoppingListAdapter(requireContext(), emptyList(), binding.noRecordsFound) { item ->
+            viewModel.deleteShoppingListItem(item)
+        }
+
+        binding.rvShoppingList.adapter = shoppingListAdapter
+        binding.rvShoppingList.layoutManager = LinearLayoutManager(context)
+
+        viewModel.shoppingList.observe(viewLifecycleOwner) { updatedItems ->
+            shoppingListAdapter.updateItems(updatedItems)
+        }
+        viewModel.getShoppingListItems()
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ShoppingListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ShoppingListFragment().apply {
-
-            }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

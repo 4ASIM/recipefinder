@@ -47,7 +47,7 @@ class DishssAdapter(private val context: Context, private var dishList: List<Rec
     }
 
     override fun onBindViewHolder(holder: DishssViewHolder, position: Int) {
-        if (position >= filteredDishList.size) return  // Prevent index out of bounds
+        if (position >= filteredDishList.size) return
 
         val dish = filteredDishList[position]
         holder.binding.tvTitle.text = dish.title
@@ -58,7 +58,7 @@ class DishssAdapter(private val context: Context, private var dishList: List<Rec
             .load(dish.image)
             .into(holder.binding.ivRecipe)
         holder.binding.ivDelete.setOnClickListener {
-            onDeleteClicked(dish) // Call the callback with the dish to delete
+            onDeleteClicked(dish)
         }
         holder.itemView.setOnClickListener {
             val bundle = Bundle().apply {
