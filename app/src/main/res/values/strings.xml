@@ -28,6 +28,7 @@
     <string name="title_Favourite">Favourite</string>
     <string name="title_notifications">Settings</string>
     <string name="title_shoppinglist">Shopping List</string>
+    <string name="title_mealplanner">Meal Planner</string>
     <string name="title_activity_recipe">RecipeActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

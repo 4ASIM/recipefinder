@@ -18,7 +18,7 @@ import com.example.recipefinder.retrofit.Recipe
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-
+import kotlinx.coroutines.flow.Flow
 class DishRepository(
     private val dishDao: DishDao,
     private val ingredientDao: IngredientDao,
@@ -137,6 +137,10 @@ class DishRepository(
 
     suspend fun isDishSaved(dishId: Long): Boolean {
         return savedDishDao.isDishSaved(dishId) > 0
+    }
+
+    fun getAllDishesFlow(): Flow<List<Recipe>> {
+        return dishDao.getAllDishesFlow() // Ensure this returns a Flow in DishDao
     }
 }
 

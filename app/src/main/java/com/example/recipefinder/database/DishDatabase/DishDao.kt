@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.recipefinder.retrofit.Recipe
-
+import kotlinx.coroutines.flow.Flow
 @Dao
 interface DishDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -23,6 +23,9 @@ interface DishDao {
 
     @Query("SELECT COUNT(*) FROM dishes")
     suspend fun getDishCount(): Int
+
+    @Query("SELECT * FROM dishes")
+    fun getAllDishesFlow(): Flow<List<Recipe>>
 
     @Query("SELECT * FROM dishes WHERE id = :dishId")
     suspend fun getDishById(dishId: Long): Recipe?
