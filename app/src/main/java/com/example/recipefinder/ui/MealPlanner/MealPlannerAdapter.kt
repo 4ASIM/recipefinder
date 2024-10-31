@@ -8,7 +8,8 @@ import com.example.recipefinder.databinding.ItemDishBinding
 import com.example.recipefinder.retrofit.Recipe
 
 class MealPlannerAdapter(
-    private var dishes: List<Recipe>
+    private var dishes: List<Recipe>,
+    private val onItemClick: (Recipe) -> Unit
 ) : RecyclerView.Adapter<MealPlannerAdapter.MealPlannerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealPlannerViewHolder {
@@ -19,6 +20,9 @@ class MealPlannerAdapter(
     override fun onBindViewHolder(holder: MealPlannerViewHolder, position: Int) {
         val dish = dishes[position]
         holder.binding.dishName.text = dish.title
+        holder.itemView.setOnClickListener {
+            onItemClick(dish)
+        }
         Glide.with(holder.itemView.context)
             .load(dish.image)
             .into(holder.binding.dishImage)

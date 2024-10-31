@@ -72,8 +72,8 @@ class HomeFragment : Fragment(),ItemClickListener {
         val cookingStepDao = DishDatabase.getDatabase(requireContext()).instructionDao()
         val savedDishDao = DishDatabase.getDatabase(requireContext()).savedDishDao()
         val shoppingListDao = DishDatabase.getDatabase(requireContext()).shoppingListDao()
-
-        val repository = DishRepository(dishDao, ingredientDao, cookingStepDao, savedDishDao, shoppingListDao)
+        val mealPlanDao = DishDatabase.getDatabase(requireContext()).mealPlanDao()
+        val repository = DishRepository(dishDao, ingredientDao, cookingStepDao, savedDishDao, shoppingListDao,mealPlanDao)
         homeViewModel =
             ViewModelProvider(this, HomeViewModelFactory(repository)).get(HomeViewModel::class.java)
 

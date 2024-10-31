@@ -61,9 +61,10 @@ class DetailFragment : Fragment() {
         val instructionDao = DishDatabase.getDatabase(requireContext()).instructionDao()
         val savedDishDao = DishDatabase.getDatabase(requireContext()).savedDishDao()
         val shoppingListDao = DishDatabase.getDatabase(requireContext()).shoppingListDao()
+        val mealPlanDao = DishDatabase.getDatabase(requireContext()).mealPlanDao()
 
         if (dishId != null) {
-            val viewModel = DetailViewModel(DishRepository(dishDao, ingredientDao, instructionDao, savedDishDao, shoppingListDao))
+            val viewModel = DetailViewModel(DishRepository(dishDao, ingredientDao, instructionDao, savedDishDao, shoppingListDao,mealPlanDao))
 
             viewLifecycleOwner.lifecycleScope.launch {
                 val isSaved = withContext(Dispatchers.IO) {
@@ -122,7 +123,9 @@ class DetailFragment : Fragment() {
             DishDatabase.getDatabase(requireContext()).ingredientDao(),
             DishDatabase.getDatabase(requireContext()).instructionDao(),
             DishDatabase.getDatabase(requireContext()).savedDishDao(),
-            DishDatabase.getDatabase(requireContext()).shoppingListDao()
+            DishDatabase.getDatabase(requireContext()).shoppingListDao(),
+            DishDatabase.getDatabase(requireContext()).mealPlanDao()
+
         ))
 
         viewLifecycleOwner.lifecycleScope.launch {

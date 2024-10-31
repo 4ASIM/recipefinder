@@ -10,6 +10,8 @@ import com.example.recipefinder.network.RetrofitInstance
 import android.util.Log
 import com.example.recipefinder.database.DishDatabase.DishDao
 import com.example.recipefinder.database.DishDatabase.DishEntity
+import com.example.recipefinder.database.MealPlan.MealPlan
+import com.example.recipefinder.database.MealPlan.MealPlanDao
 import com.example.recipefinder.database.Shoppinglistitems.ShoppingListDao
 import com.example.recipefinder.database.Shoppinglistitems.ShoppingListItem
 import com.example.recipefinder.database.favorite.SavedDishDao
@@ -24,7 +26,8 @@ class DishRepository(
     private val ingredientDao: IngredientDao,
     private val cookingStepDao: InstructionDao,
     private val savedDishDao: SavedDishDao,
-    val shoppingListDao: ShoppingListDao
+    val shoppingListDao: ShoppingListDao,
+    private val mealPlanDao: MealPlanDao
 ) {
     private val apiKey = "9d9e99f4d79348318a0227e8886ba4ef"
 
@@ -140,7 +143,33 @@ class DishRepository(
     }
 
     fun getAllDishesFlow(): Flow<List<Recipe>> {
-        return dishDao.getAllDishesFlow() // Ensure this returns a Flow in DishDao
+        return dishDao.getAllDishesFlow()
     }
+    suspend fun isDishAddedForMeal(date: String, mealTime: String): Int {
+        return mealPlanDao.isDishAddedForMeal(date, mealTime)
+    }
+    suspend fun saveMealPlan(date: String, mealTime: String, dishId: Int) {
+        mealPlanDao.insertMealPlan(MealPlan(date = date, mealTime = mealTime, dishId = dishId))
+    }
+
+    suspend fun getAllMealPlans(): List<MealPlan> {
+        return mealPlanDao.getAllMealPlans()
+    }
+    suspend fun getMealPlansForDate(date: String): Flow<List<MealPlan>> {
+        return mealPlanDao.getMealPlansForDateFlow(date) // Make sure this method returns a Flow
+    }
+
+
+//    suspend fun saveMealPlan(date: String, mealTime: String, dishId: Long) {
+//        mealPlanDao.insertOrUpdateMealPlan(MealPlan(date = date, mealTime = mealTime, dishId = dishId))
+//    }
+//
+//    suspend fun getMealPlan(date: String, mealTime: String): MealPlan? {
+//        return mealPlanDao.getMealPlan(date, mealTime)
+//    }
+//
+//    fun getMealPlansForDate(date: String): Flow<List<MealPlan>> {
+//        return mealPlanDao.getMealPlansForDate(date)
+//    }
 }
 

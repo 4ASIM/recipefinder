@@ -8,12 +8,14 @@ import com.example.recipefinder.database.IngredientDatabase.IngredientDao
 import com.example.recipefinder.database.IngredientDatabase.IngredientEntity
 import com.example.recipefinder.database.InstructionDatabase.InstructionDao
 import com.example.recipefinder.database.InstructionDatabase.InstructionEntity
+import com.example.recipefinder.database.MealPlan.MealPlan
+import com.example.recipefinder.database.MealPlan.MealPlanDao
 import com.example.recipefinder.database.Shoppinglistitems.ShoppingListDao
 import com.example.recipefinder.database.Shoppinglistitems.ShoppingListItem
 import com.example.recipefinder.database.favorite.SavedDishEntity
 import com.example.recipefinder.database.favorite.SavedDishDao
 
-@Database(entities = [DishEntity::class, IngredientEntity::class, InstructionEntity::class, SavedDishEntity::class, ShoppingListItem::class], version = 14)
+@Database(entities = [DishEntity::class, IngredientEntity::class, InstructionEntity::class, SavedDishEntity::class, ShoppingListItem::class, MealPlan::class], version = 15)
 abstract class DishDatabase : RoomDatabase() {
     abstract fun dishDao(): DishDao
     abstract fun ingredientDao(): IngredientDao
@@ -21,6 +23,8 @@ abstract class DishDatabase : RoomDatabase() {
     abstract fun savedDishDao(): SavedDishDao
 
     abstract fun shoppingListDao(): ShoppingListDao
+
+    abstract fun mealPlanDao(): MealPlanDao
 
     companion object {
         @Volatile

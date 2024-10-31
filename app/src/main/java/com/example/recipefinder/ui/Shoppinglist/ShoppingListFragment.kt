@@ -30,7 +30,8 @@ class ShoppingListFragment : Fragment() {
             DishDatabase.getDatabase(requireContext()).ingredientDao(),
             DishDatabase.getDatabase(requireContext()).instructionDao(),
             DishDatabase.getDatabase(requireContext()).savedDishDao(),
-            shoppingListDao
+            DishDatabase.getDatabase(requireContext()).shoppingListDao(),
+            DishDatabase.getDatabase(requireContext()).mealPlanDao()
         )
 
         viewModel = ViewModelProvider(this, ShoppingListViewModelFactory(shoppingListDao)).get(ShoppingListViewModel::class.java)
