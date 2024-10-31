@@ -12,20 +12,34 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_navigation_home_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment
         android:id="@+id/navigation_favourite"
         android:name="com.example.recipefinder.ui.dashboard.FavouriteFragment"
         android:label="@string/title_Favourite"
-        tools:layout="@layout/favourite_dashboard" />
+        tools:layout="@layout/favourite_dashboard" >
+        <action
+            android:id="@+id/action_navigation_favourite_to_detailFragment2"
+            app:destination="@id/detailFragment"
+            app:popUpTo="@id/navigation_favourite"
+            app:popUpToInclusive="true"/>
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_setting"
         android:name="com.example.recipefinder.ui.Setting.SettingFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_setting" />
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_navigation_setting_to_navigation_battery"
+            app:destination="@id/navigation_battery"
+            app:popUpTo="@id/navigation_setting"
+            app:popUpToInclusive="true"/>
+    </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.recipefinder.ui.home.detailsofincredient.DetailFragment"
@@ -41,6 +55,11 @@
         android:name="com.example.recipefinder.ui.MealPlanner.MealPlanner"
         android:label="fragment_meal_planner"
         tools:layout="@layout/fragment_meal_planner" />
+    <fragment
+        android:id="@+id/navigation_battery"
+        android:name="com.example.recipefinder.ui.Battery.BatteryFragment"
+        android:label="fragment_battery"
+        tools:layout="@layout/fragment_battery" />
 
 
 </navigation>

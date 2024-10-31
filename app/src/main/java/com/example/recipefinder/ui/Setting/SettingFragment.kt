@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.recipefinder.MainActivity
 import com.example.recipefinder.R
@@ -44,6 +45,10 @@ class SettingFragment : Fragment() {
         profileImageView = binding.profileImageView
         usernameTextView = binding.usernameTextView
         emailTextView = binding.emailTextView
+
+        binding.batterybutton.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_setting_to_navigation_battery)
+        }
 
         auth = FirebaseAuth.getInstance()
 
