@@ -16,7 +16,7 @@
         android:title="@string/title_shoppinglist" />
     <item
         android:id="@+id/navigation_mealplanner"
-        android:icon="@drawable/baseline_add_shopping_cart_24"
+        android:icon="@drawable/meal"
         android:title="@string/title_mealplanner" />
     <item
         android:id="@+id/navigation_setting"

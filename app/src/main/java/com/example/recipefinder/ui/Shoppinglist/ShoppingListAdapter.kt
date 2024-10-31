@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
@@ -38,9 +39,18 @@ class ShoppingListAdapter(
             .load("$baseUrl${item.image}")
             .into(holder.binding.ivRecipe)
         holder.binding.ivDelete.setOnClickListener {
-            onDeleteClicked(item)
+
+            AlertDialog.Builder(context)
+                .setTitle("Delete Item")
+                .setMessage("Are you sure you want to delete ${item.name}?")
+                .setPositiveButton("Yes") { _, _ ->
+                    onDeleteClicked(item)
+                }
+                .setNegativeButton("No", null)
+                .show()
         }
     }
+
 
     override fun getItemCount(): Int = filteredItemList.size
 

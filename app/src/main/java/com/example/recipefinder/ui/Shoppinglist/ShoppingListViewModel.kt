@@ -24,7 +24,7 @@ class ShoppingListViewModel(
     fun deleteShoppingListItem(item: ShoppingListItem) {
         viewModelScope.launch {
             shoppingListDao.deleteItem(item.id)
-            getShoppingListItems() // Refresh the list after deletion
+            getShoppingListItems()
         }
     }
 }

@@ -42,4 +42,7 @@
     //shoppinglist
     <string name="tv_shopping">Shopping List</string>
 
+    //mealplanner
+    <string name="tv_mealplannertitle">Meal Planner</string>
+
 </resources>

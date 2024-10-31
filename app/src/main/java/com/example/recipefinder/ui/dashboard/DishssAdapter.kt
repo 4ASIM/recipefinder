@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -57,9 +58,19 @@ class DishssAdapter(private val context: Context, private var dishList: List<Rec
         Glide.with(holder.itemView.context)
             .load(dish.image)
             .into(holder.binding.ivRecipe)
+
         holder.binding.ivDelete.setOnClickListener {
-            onDeleteClicked(dish)
+
+            AlertDialog.Builder(context)
+                .setTitle("Delete Item")
+                .setMessage("Are you sure you want to delete ${dish.title}?")
+                .setPositiveButton("Yes") { _, _ ->
+                    onDeleteClicked(dish)
+                }
+                .setNegativeButton("No", null)
+                .show()
         }
+
         holder.itemView.setOnClickListener {
             val bundle = Bundle().apply {
                 putLong("dish_id", dish.id.toLong())
