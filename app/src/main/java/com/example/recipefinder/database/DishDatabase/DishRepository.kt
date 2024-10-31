@@ -160,6 +160,7 @@ class DishRepository(
     }
 
 
+
 //    suspend fun saveMealPlan(date: String, mealTime: String, dishId: Long) {
 //        mealPlanDao.insertOrUpdateMealPlan(MealPlan(date = date, mealTime = mealTime, dishId = dishId))
 //    }
@@ -171,5 +172,11 @@ class DishRepository(
 //    fun getMealPlansForDate(date: String): Flow<List<MealPlan>> {
 //        return mealPlanDao.getMealPlansForDate(date)
 //    }
+suspend fun getDishById(dishId: Int): Recipe? {
+    return withContext(Dispatchers.IO) {
+        dishDao.getDishById(dishId)
+    }
+}
+
 }
 

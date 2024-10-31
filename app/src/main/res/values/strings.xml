@@ -44,5 +44,7 @@
 
     //mealplanner
     <string name="tv_mealplannertitle">Meal Planner</string>
+    <string name="cousine">cousine</string>
+    <string name="dishname">DishName</string>
 
 </resources>

@@ -29,4 +29,8 @@ interface DishDao {
 
     @Query("SELECT * FROM dishes WHERE id = :dishId")
     suspend fun getDishById(dishId: Long): Recipe?
+
+    @Query("SELECT * FROM dishes WHERE id = :dishId LIMIT 1")
+    suspend fun getDishById(dishId: Int): Recipe?
+
 }

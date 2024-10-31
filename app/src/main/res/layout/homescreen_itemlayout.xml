@@ -59,7 +59,7 @@
                 android:freezesText="true"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="DishName"
+                android:text="@string/dishname"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -78,49 +78,16 @@
                 />
 
             <TextView
-                android:id="@+id/tvFavorite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textColor="@color/red"
-
-                app:layout_constraintBottom_toBottomOf="@+id/ivFavorite"
-                app:layout_constraintStart_toEndOf="@+id/ivFavorite"
-                app:layout_constraintTop_toTopOf="@+id/ivFavorite" />
-
-
-            <ImageView
-                android:id="@+id/ivTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                app:layout_constraintBottom_toBottomOf="@+id/ivFavorite"
-                app:layout_constraintStart_toEndOf="@+id/tvFavorite"
-                app:layout_constraintTop_toTopOf="@+id/ivFavorite"
-                app:srcCompat="@drawable/baseline_time"
-                app:tint="@color/white" />
-
-            <TextView
-                android:id="@+id/tvTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="time"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/ivTime"
-                app:layout_constraintStart_toEndOf="@+id/ivTime"
-                app:layout_constraintTop_toTopOf="@+id/ivTime" />
-
-            <TextView
                 android:id="@+id/cusine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="cousine"
+                android:text="@string/cousine"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/ivTime"
-                app:layout_constraintStart_toEndOf="@+id/tvTime"
-                app:layout_constraintTop_toTopOf="@+id/ivTime"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="10dp"
                 app:srcCompat="@drawable/baseline_time" />
 
 

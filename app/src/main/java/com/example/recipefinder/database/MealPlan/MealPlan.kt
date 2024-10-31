@@ -8,5 +8,7 @@ data class MealPlan(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val date: String,
     val mealTime: String,
-    val dishId: Int
+    val dishId: Int,
+    var dishName: String? = null,
+    var dishImage: String? = null
 )

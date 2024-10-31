@@ -33,7 +33,8 @@ class MealPlannerViewModel(private val repository: DishRepository) : ViewModel()
             }
         }
     }
-//    fun fetchAndSaveDishesIfNeeded(cuisines: List<String>) {
+
+    //    fun fetchAndSaveDishesIfNeeded(cuisines: List<String>) {
 //        viewModelScope.launch {
 //            val dishCount = repository.getDishCount()
 //            if (dishCount == 0) {
@@ -41,13 +42,26 @@ class MealPlannerViewModel(private val repository: DishRepository) : ViewModel()
 //            }
 //        }
 //    }
-
     fun getMealPlansForDate(date: String) {
         viewModelScope.launch {
             repository.getMealPlansForDate(date).collect { mealPlanList ->
-                _mealPlans.postValue(mealPlanList)
+                val updatedMealPlans = mealPlanList.map { mealPlan ->
+                    val dish = repository.getDishById(mealPlan.dishId) // Fetch dish details
+                    mealPlan.dishName = dish?.title // Set dish name
+                    mealPlan.dishImage = dish?.image // Set dish image
+                    mealPlan
+                }
+                _mealPlans.postValue(updatedMealPlans)
             }
         }
-
     }
 }
+//    fun getMealPlansForDate(date: String) {
+//        viewModelScope.launch {
+//            repository.getMealPlansForDate(date).collect { mealPlanList ->
+//                _mealPlans.postValue(mealPlanList)
+//            }
+//        }
+//
+//    }
+//}

@@ -3,6 +3,7 @@ package com.example.recipefinder.ui.MealPlanner
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.recipefinder.database.MealPlan.MealPlan
 import com.example.recipefinder.databinding.ItemMealplannerBinding
 
@@ -17,10 +18,19 @@ class MealPlanAdapter(private var mealPlans: List<MealPlan>) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: MealPlanViewHolder, position: Int) {
         val mealPlan = mealPlans[position]
+        holder.binding.tvMealTime.isSelected = true
         holder.binding.apply {
-            tvMealTime.text = mealPlan.date
-            tvDishName.text = mealPlan.mealTime
+            tvMealTime.text = mealPlan.mealTime
+            tvDishName.text = mealPlan.dishName
+
+            if (mealPlan.dishImage != null) {
+
+                Glide.with(holder.itemView.context)
+                    .load(mealPlan.dishImage)
+                    .into(ivDishImage)
+            }
         }
+
     }
 
     override fun getItemCount(): Int = mealPlans.size

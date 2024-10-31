@@ -51,7 +51,6 @@ class DishAdapter(var listener: ItemClickListener,private val context: Context, 
         val dish = filteredDishList[position]
         holder.binding.tvTitle.text = dish.title
         holder.binding.cusine.text = dish.cuisine
-        holder.binding.tvTime.text = dish.maxReadyTime.toString()
         holder.binding.tvTitle.isSelected = true
         Glide.with(holder.itemView.context)
             .load(dish.image)

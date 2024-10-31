@@ -45,6 +45,7 @@
             android:freezesText="true"
             android:maxLines="1"
             android:singleLine="true"
+            android:textStyle="bold"
             android:text="Title"
             android:textColor="@color/black"
             android:layout_marginEnd="80dp"
