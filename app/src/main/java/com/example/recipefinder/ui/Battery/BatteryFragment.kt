@@ -1,6 +1,8 @@
 package com.example.recipefinder.ui.Battery
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +38,7 @@ class BatteryFragment : Fragment() {
                 binding.vvBattery.start()
             } else {
                 binding.vvBattery.pause()
+                binding.vvBattery.seekTo(2000)
             }
         })
 
@@ -44,6 +47,7 @@ class BatteryFragment : Fragment() {
             binding.vvBattery.start()
             binding.vvBattery.setOnCompletionListener {
                 binding.vvBattery.start()
+
             }
         })
     }
@@ -52,6 +56,8 @@ class BatteryFragment : Fragment() {
         super.onResume()
         batteryViewModel.loadVideoUri(requireContext())
         batteryViewModel.registerBatteryReceiver(requireContext())
+
+
     }
 
     override fun onPause() {

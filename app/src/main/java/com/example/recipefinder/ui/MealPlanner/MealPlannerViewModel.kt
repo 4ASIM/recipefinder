@@ -26,29 +26,20 @@ class MealPlannerViewModel(private val repository: DishRepository) : ViewModel()
         viewModelScope.launch {
             val isDishAdded = repository.isDishAddedForMeal(date, mealTime)
             if (isDishAdded > 0) {
-                onDishAlreadyAdded() // Call the callback if the dish already exists
+                onDishAlreadyAdded()
             } else {
-                // Save the new meal plan entry
                 repository.saveMealPlan(date, mealTime, dishId)
             }
         }
     }
 
-    //    fun fetchAndSaveDishesIfNeeded(cuisines: List<String>) {
-//        viewModelScope.launch {
-//            val dishCount = repository.getDishCount()
-//            if (dishCount == 0) {
-//                repository.fetchDishes(cuisines)
-//            }
-//        }
-//    }
     fun getMealPlansForDate(date: String) {
         viewModelScope.launch {
             repository.getMealPlansForDate(date).collect { mealPlanList ->
                 val updatedMealPlans = mealPlanList.map { mealPlan ->
-                    val dish = repository.getDishById(mealPlan.dishId) // Fetch dish details
-                    mealPlan.dishName = dish?.title // Set dish name
-                    mealPlan.dishImage = dish?.image // Set dish image
+                    val dish = repository.getDishById(mealPlan.dishId)
+                    mealPlan.dishName = dish?.title
+                    mealPlan.dishImage = dish?.image
                     mealPlan
                 }
                 _mealPlans.postValue(updatedMealPlans)
@@ -56,12 +47,3 @@ class MealPlannerViewModel(private val repository: DishRepository) : ViewModel()
         }
     }
 }
-//    fun getMealPlansForDate(date: String) {
-//        viewModelScope.launch {
-//            repository.getMealPlansForDate(date).collect { mealPlanList ->
-//                _mealPlans.postValue(mealPlanList)
-//            }
-//        }
-//
-//    }
-//}

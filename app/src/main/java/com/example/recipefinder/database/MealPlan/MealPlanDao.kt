@@ -17,9 +17,6 @@ interface MealPlanDao {
     @Query("SELECT COUNT(*) FROM meal_plan_table WHERE date = :date AND mealTime = :mealTime")
     suspend fun isDishAddedForMeal(date: String, mealTime: String): Int
 
-//    @Query("SELECT * FROM meal_plan_table WHERE date = :date")
-//    fun getMealPlansForDate(date: String): Flow<List<MealPlan>>
-
     @Query("SELECT * FROM meal_plan_table")
     suspend fun getAllMealPlans(): List<MealPlan>
 
